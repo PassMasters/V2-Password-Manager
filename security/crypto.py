@@ -1,11 +1,5 @@
-import base64
 import os
-import secrets
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from pwmanager.models import PW, Encryption, Data_ID, PWcheck
-import cryptography
+from pwmanager.models import Encryption
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
@@ -30,8 +24,7 @@ def decrypt(item, key):
     v2 = str(plaintext_bytes,'UTF-8')
     return v2
 def decryptform( obj, key, user):
-        dID = Data_ID.objects.get(User=user)
-        ekey = Encryption.objects.get(Owner_ID=dID.Key_lookup)
+        ekey = Encryption.objects.get(Owner=user)
         v7 = eval(bytes(obj.Password, 'UTF-8'))
         iv = eval(bytes(ekey.IV, 'UTF-8'))
         keys = AES.new(key, AES.MODE_CBC, iv)
@@ -47,18 +40,17 @@ def decryptform( obj, key, user):
             plaintext_bytes = x2[:-padding_length]
             x3 = str(plaintext_bytes,'UTF-8')
         except Exception as e:
-             from_initial = {
+             form_initial = {
                   'Password': v2,
                   'TOTP': "N/A"
              }
-             return from_initial
+             return form_initial
         form_initial = {
             'Password': v2,
             'TOTP': x3
             }
         return form_initial
 def encrypt(obj, key, user, iv):
-    ekey = Encryption.objects.get(Owner=user)
     keys = AES.new(key, AES.MODE_CBC, iv)
     v1 = bytes(obj, 'UTF-8')
     padding_length = 16 - (len(v1) % 16)
