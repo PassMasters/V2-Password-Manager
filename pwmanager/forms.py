@@ -1,0 +1,13 @@
+from pyexpat import model
+from .models import PW
+from django import forms
+
+class PwEdit(forms.ModelForm):
+    class Meta:
+        model = PW
+        fields = '__all__'
+
+class Pwmake(forms.ModelForm):
+    class Meta:
+        model = PW
+        fields = '__all__'
