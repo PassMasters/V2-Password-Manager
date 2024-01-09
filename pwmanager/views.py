@@ -28,7 +28,7 @@ def setup(request):
             return redirect('passwords/error')
         return redirect('/')
     else:
-        return render(request, "test.html")
+        return render(request, "pin.html")
 @login_required
 def deleteAccount(request):
     if request.method == 'POST':
@@ -81,6 +81,8 @@ def add(request):
         s.Id = user_id
         s.save()
         return redirect('/')
+    else: 
+        return render(request, 'add.html')
 @login_required
 def homepage(request):
     if request.method == 'POST':
