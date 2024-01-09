@@ -23,6 +23,16 @@ def decrypt(item, key):
     plaintext_bytes = d7[:-padding_length]
     v2 = str(plaintext_bytes,'UTF-8')
     return v2
+def encrypt2(item, key):
+    
+    v1 = item
+    padding_length = 16 - (len(v1) % 16)
+    padded_bytes = v1 + bytes([padding_length]) * padding_length
+    
+    d7 = key.encrypt(padded_bytes)
+    v2 = str(d7,'UTF-8')
+    return v2
+
 def decryptform( obj, key, user):
         ekey = Encryption.objects.get(Owner=user)
         v7 = eval(bytes(obj.Password, 'UTF-8'))

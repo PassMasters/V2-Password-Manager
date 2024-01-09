@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import PW, Encryption
 from django.shortcuts import redirect
 import os
-from security import crpto
+from security import crypto
 # Create your views here.
 n = 9999999999
 @login_required
@@ -53,7 +53,7 @@ def add(request):
         print(iv2)
         iv = iv2
         pin = bytes(request.POST.get('pin'),'UTF-8')
-        encryption_key = bcrypt.kdf(pin, salt, rounds=900,  desired_key_bytes=32)
+        encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
         user = request.POST['username']
         pw = request.POST['Password']
         newPassword = crypto.encrypt(pw, encryption_key, request.user, iv)
@@ -68,7 +68,7 @@ def add(request):
 # Apply PKCS7 padding to TOTP
             padded_TOTP = T2 + bytes([paddingTOTP]) * paddingTOTP
 # Encrypt the padded_TOTP using the 'keys' AES cipher
-            newTOTP = keys.encrypt(padded_TOTP)
+            newTOTP = crypto.encrypt(padded_TOTP, encryption_key, request.user, iv)
             TOTP = newTOTP
         Date = request.POST['date']
         Owner = request.user
