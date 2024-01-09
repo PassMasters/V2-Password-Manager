@@ -1,0 +1,19 @@
+<html>
+    {% for item in pwlist %}
+    <div >
+      <div>
+        <div >
+
+          <h5 >{{ item.Username }}</h5>
+          <hr>
+          <p > <b>Password: </b>{{ item.Password }}</p>
+
+          <p> <b>TOTP:</b> {{ item.TOTP }}</p>
+
+          <a href="{{ item.EditURL }}" class="btn btn-sm btn-secondary">Edit</a>
+        </div>
+      </div>
+    </div>
+
+{% endfor %}
+</html>

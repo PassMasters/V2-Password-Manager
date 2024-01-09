@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import PW, Encryption
 from django.shortcuts import redirect
 import os
+import pyotp
 from security import crypto
 # Create your views here.
 n = 9999999999
@@ -80,3 +81,72 @@ def add(request):
         s.Id = user_id
         s.save()
         return redirect('/')
+@login_required
+def homepage(request):
+    if request.method == 'POST':
+        
+        passwordss = PW.objects.filter(Owner=request.user).values('Username', 'Password', 'TOTP', 'pk', 'Notes', 'URL')
+
+
+        
+        ekey = Encryption.objects.get(Owner=request.user)
+        salt = bytes(ekey.Salt,'UTF-8')
+        iv = eval(bytes(ekey.IV, 'UTF-8'))
+
+        pin = bytes(request.POST.get('pin'), 'UTF-8')
+        encryption_key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)
+ 
+        mainlist = []
+        pwlist = list(passwordss)
+        runs = 0
+        try:
+            for i in range(len(pwlist)):
+                y1 = dict(pwlist[i])
+                print(y1)
+                y2 = y1['Username']
+                runs  = runs +1
+                y3 = eval(bytes(y1['Password'], 'UTF-8'))
+                keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+                try:
+                    y6 = crypto.d2(y3, keys)
+                except  Exception as e:
+                    if runs == 1:
+                        return render(request, "pin.html", {'msg': e})
+                    else:
+                        return render(request, "error.html", {'msg', e})
+                x5 = y1['TOTP']
+                if x5 == "":
+                    x9 = "N/A"
+                else:
+                    x6 = eval(bytes(x5, 'UTF-8'))
+                    x8 = keys.decrypt(x6)
+                    padding_length2 = x8[-1]
+                    plaintext_bytes2 = x8[:-padding_length2]
+                    x7 = str(plaintext_bytes2, 'UTF-8')
+                    try:
+                        totp = pyotp.TOTP(x7)
+                        totpcalc = totp.now()
+                    except Exception as e:
+                        totpcalc = "improper TOTP secret please edit your TOTP"
+               
+                
+                pk = y1['pk']
+                z2 = PW.objects.get(pk=pk)
+                pw_url= z2.get_absolute_url()
+                notes1 = y1['Notes']
+                url1 = y1['URL']
+                data_dict = {
+                "Username": y2,
+                "Password": y6,
+                "TOTP": totpcalc,
+                "URL" : url1,
+                "notes" : notes1,
+                "EditURL": pw_url
+            }
+                mainlist.append(data_dict)
+            return render (request, 'pw_homepage.html', {'pwlist': mainlist})
+        except Exception as e:
+            msg ="an error has occured decypting passwords"
+            return render(request, 'error.html', {'msg': e })
+    else:
+         return render(request, 'pin.html')

@@ -6,5 +6,6 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('destroyaccount', views.deleteAccount),
     path('add',  views.add),
-    path('setup', views.setup)
+    path('setup', views.setup),
+    path('home', views.homepage)
 ]

@@ -9,7 +9,7 @@ class AcessRequest(models.Model):
 class ConfCode(models.Model):
     req = models.OneToOneField(AcessRequest, on_delete=models.CASCADE)
     code = models.CharField(max_length=255, primary_key=True)
-class lisence(models.Model):
+class apikey(models.Model):
     name = models.CharField(max_length=100)
     key = models.CharField(max_length=255, primary_key=True)
     Type = models.CharField(max_length=100)
