@@ -14,7 +14,7 @@ import bcrypt
 from Crypto.Cipher import AES
 from django.contrib.auth.decorators import login_required
 import hashlib
-from pwmanager.models import PW, Encryption, Data_ID, PWcheck
+from pwmanager.models import PW, Encryption
 from datetime import datetime, timedelta
 from security import crypto as crypt
 from security.models import UserServerKeys as userkeys
