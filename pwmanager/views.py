@@ -1,8 +1,8 @@
 from django.shortcuts import render
 import secrets
-import bcrypt
+import bcrypt, crypt, Crypto
 from django.contrib.auth.models import User
-from Crypto.Cipher import AES
+#from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from django.contrib.auth.decorators import login_required
 from .models import PW, Encryption

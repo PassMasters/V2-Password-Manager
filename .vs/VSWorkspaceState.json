@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\api",
-    "\\app",
-    "\\pwmanager",
-    "\\security"
+    "\\pwmanager"
   ],
   "SelectedNode": "\\pwmanager\\views.py",
   "PreviewInSolutionExplorer": false
