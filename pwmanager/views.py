@@ -106,19 +106,21 @@ def homepage(request):
                 y1 = dict(pwlist[i])
                 print(y1)
                 y2 = y1['Username']
-                runs  = runs +1
+                runs  = runs + 1
                 y3 = eval(bytes(y1['Password'], 'UTF-8'))
                 keys = AES.new(encryption_key, AES.MODE_CBC, iv)
                 try:
                     y6 = crypto.d2(y3, keys)
                 except  Exception as e:
                     if runs == 1:
-                        return render(request, "pin.html", {'msg': e})
+                        print("wrong pin")
+                        return render(request, "pin.html", {'msg': str(e, 'UTF-8')})
                     else:
-                        return render(request, "error.html", {'msg', e})
+                        print("error")
+                        return render(request, "error.html", {'msg': str(e, 'UTF-8')})
                 x5 = y1['TOTP']
                 if x5 == "":
-                    x9 = "N/A"
+                    totpcalc = "N/A"
                 else:
                     x6 = eval(bytes(x5, 'UTF-8'))
                     x8 = keys.decrypt(x6)
@@ -149,6 +151,6 @@ def homepage(request):
             return render (request, 'pw_homepage.html', {'pwlist': mainlist})
         except Exception as e:
             msg ="an error has occured decypting passwords"
-            return render(request, 'error.html', {'msg': e })
+            return render(request, 'error.html', {'msg': str(e, 'UTF-8') })
     else:
          return render(request, 'pin.html')
