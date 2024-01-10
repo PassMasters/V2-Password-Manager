@@ -1,0 +1,10 @@
+{
+    "builds": [{
+        "sec": "app/wsgi.py"
+    }],
+    "routes":[{
+        "src":"/(.*)",
+        "dest": "app/wsgi.py"
+    }]
+
+}
