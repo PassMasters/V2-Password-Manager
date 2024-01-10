@@ -56,7 +56,7 @@ def add(request):
         pin = bytes(request.POST.get('pin'),'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
         user = request.POST['username']
-        pw = request.POST['Password']
+        pw = bytes(request.POST['Password'],'UTF-8')
         newPassword = crypto.encrypt(pw, encryption_key, request.user, iv)
         pw = newPassword
         TOTP = request.POST['TOTP']
@@ -65,11 +65,7 @@ def add(request):
             newTOTP = T2
         else:      
             T2 = bytes(TOTP, 'UTF-8')
-            paddingTOTP = 16 - (len(TOTP) % 16)
-# Apply PKCS7 padding to TOTP
-            padded_TOTP = T2 + bytes([paddingTOTP]) * paddingTOTP
-# Encrypt the padded_TOTP using the 'keys' AES cipher
-            newTOTP = crypto.encrypt(padded_TOTP, encryption_key, request.user, iv)
+            newTOTP = crypto.encrypt(T2, encryption_key, request.user, iv)
             TOTP = newTOTP
         Date = request.POST['date']
         Owner = request.user
@@ -101,16 +97,14 @@ def homepage(request):
         mainlist = []
         pwlist = list(passwordss)
         runs = 0
-        try:
-            for i in range(len(pwlist)):
-                y1 = dict(pwlist[i])
-                print(y1)
-                y2 = y1['Username']
+        for i in range(len(pwlist)):
+                datadict = dict(pwlist[i])
+                username = datadict['Username']
                 runs  = runs + 1
-                y3 = eval(bytes(y1['Password'], 'UTF-8'))
+                pwbytes = eval(bytes(datadict['Password'], 'UTF-8'))
                 keys = AES.new(encryption_key, AES.MODE_CBC, iv)
                 try:
-                    y6 = crypto.d2(y3, keys)
+                    password = crypto.d2(pwbytes, keys)
                 except  Exception as e:
                     if runs == 1:
                         print("wrong pin")
@@ -118,39 +112,34 @@ def homepage(request):
                     else:
                         print("error")
                         return render(request, "error.html", {'msg': str(e, 'UTF-8')})
-                x5 = y1['TOTP']
-                if x5 == "":
+                etotp = datadict['TOTP']
+                if etotp == "":
                     totpcalc = "N/A"
                 else:
-                    x6 = eval(bytes(x5, 'UTF-8'))
-                    x8 = keys.decrypt(x6)
-                    padding_length2 = x8[-1]
-                    plaintext_bytes2 = x8[:-padding_length2]
-                    x7 = str(plaintext_bytes2, 'UTF-8')
+                    totpbytes = eval(bytes(etotp, 'UTF-8'))
+                    decrytpedtotp = keys.decrypt(totpbytes)
+                    padding_length2 = decrytpedtotp[-1]
+                    plaintext_bytes2 = decrytpedtotp[:-padding_length2]
+                    totpstr = str(plaintext_bytes2, 'UTF-8')
                     try:
-                        totp = pyotp.TOTP(x7)
+                        totp = pyotp.TOTP(totpstr)
                         totpcalc = totp.now()
                     except Exception as e:
                         totpcalc = "improper TOTP secret please edit your TOTP"
-               
-                
-                pk = y1['pk']
-                z2 = PW.objects.get(pk=pk)
-                pw_url= z2.get_absolute_url()
-                notes1 = y1['Notes']
-                url1 = y1['URL']
+                pk = datadict['pk']
+                pwpk = PW.objects.get(pk=pk)
+                pw_url= pwpk.get_absolute_url()
+                notes1 = datadict['Notes']
+                url1 = datadict['URL']
                 data_dict = {
-                "Username": y2,
-                "Password": y6,
+                "Username": username,
+                "Password": password,
                 "TOTP": totpcalc,
                 "URL" : url1,
                 "notes" : notes1,
                 "EditURL": pw_url
             }
                 mainlist.append(data_dict)
-            return render (request, 'pw_homepage.html', {'pwlist': mainlist})
-        except Exception as e:
-            msg ="an error has occured decypting passwords"
-            return render(request, 'error.html', {'msg': str(e, 'UTF-8') })
+        return render (request, 'pw_homepage.html', {'pwlist': mainlist})
     else:
          return render(request, 'pin.html')
