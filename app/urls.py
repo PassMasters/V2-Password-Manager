@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pwmanager.views import startpage as home
+from security.views import logon as logon
+from security.views import signup1 as signup
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include('api.urls')),
     path("passwords/", include('pwmanager.urls')),
     path("secure/", include('security.urls')),
-    path('accounts/', include("django.contrib.auth.urls")),
-    path('', home)
+    path("accounts/login", logon),
+    path('', home),
+    path("accounts/signup", signup),
 ]
