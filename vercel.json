@@ -1,6 +1,6 @@
 {
     "builds": [{
-        "sec": "app/wsgi.py"
+        "src": "app/wsgi.py"
     }],
     "routes":[{
         "src":"/(.*)",
