@@ -30,8 +30,7 @@ def encrypt2(item, key):
     padded_bytes = v1 + bytes([padding_length]) * padding_length
     
     d7 = key.encrypt(padded_bytes)
-    v2 = str(d7,'UTF-8')
-    return v2
+    return d7
 
 def decryptform( obj, key, user):
         ekey = Encryption.objects.get(Owner=user)

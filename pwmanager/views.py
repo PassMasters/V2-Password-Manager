@@ -6,6 +6,7 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from django.contrib.auth.decorators import login_required
 from .models import PW, Encryption
+from security.models import PWcheck 
 from django.shortcuts import redirect
 import os
 import pyotp
@@ -28,6 +29,14 @@ def setup(request):
             ekey.IV = iv
             ekey.Salt = salt
             ekey.save()
+            encryption_key = bcrypt.kdf(password, salt, rounds=500,  desired_key_bytes=32)
+            model = PWcheck()
+            model.Owner = request.user
+            word = bytes("munchyisverybadthisdecryptedwell", 'UTF-8')
+            keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+            model.Data = crypto.encrypt2(word, keys)
+            model.Answer = str(word, 'UTF-8')
+            model.save()
         else:
             return redirect('passwords/error')
         return redirect('/')
