@@ -12,6 +12,10 @@ import pyotp
 from security import crypto
 # Create your views here.
 n = 9999999999
+
+def startpage(request):
+    return render(request, "startpage.html")
+
 @login_required
 def setup(request):
     if request.method == "POST":
