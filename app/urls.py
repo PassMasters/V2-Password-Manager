@@ -22,5 +22,6 @@ urlpatterns = [
     path("api/", include('api.urls')),
     path("passwords/", include('pwmanager.urls')),
     path("secure/", include('security.urls')),
-    path('accounts/', include("django.contrib.auth.urls"))
+    path('accounts/', include("django.contrib.auth.urls")),
+    path('', pwmanager.views.startpage)
 ]
