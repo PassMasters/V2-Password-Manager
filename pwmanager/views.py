@@ -44,15 +44,9 @@ def deleteAccount(request):
 def add(request):
     if request.method == "POST":
         ekey = Encryption.objects.get(Owner=request.user)
-        user_id = ekey.Owner_ID
-        s = PW()
+        pwmodel = PW()
         salt = bytes(ekey.Salt, 'UTF-8')
-        iv = bytes(ekey.IV, 'UTF-8')
-        print(iv)
-        print(len(iv))
-        iv2 = eval(iv)
-        print(iv2)
-        iv = iv2
+        iv = eval(bytes(ekey.IV, 'UTF-8'))
         pin = bytes(request.POST.get('pin'),'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
         user = request.POST['username']
@@ -68,14 +62,12 @@ def add(request):
             newTOTP = crypto.encrypt(T2, encryption_key, request.user, iv)
             TOTP = newTOTP
         Date = request.POST['date']
-        Owner = request.user
-        s.Username = user
-        s.Password = newPassword
-        s.TOTP = newTOTP
-        s.Date_Created = Date
-        s.Owner = Owner
-        s.Id = user_id
-        s.save()
+        pwmodel.Username = user
+        pwmodel.Password = newPassword
+        pwmodel.TOTP = newTOTP
+        pwmodel.Date_Created = Date
+        pwmodel.Owner = request.user
+        pwmodel.save()
         return redirect('/')
     else: 
         return render(request, 'add.html')
@@ -84,16 +76,11 @@ def homepage(request):
     if request.method == 'POST':
         
         passwordss = PW.objects.filter(Owner=request.user).values('Username', 'Password', 'TOTP', 'pk', 'Notes', 'URL')
-
-
-        
         ekey = Encryption.objects.get(Owner=request.user)
         salt = bytes(ekey.Salt,'UTF-8')
         iv = eval(bytes(ekey.IV, 'UTF-8'))
-
         pin = bytes(request.POST.get('pin'), 'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)
- 
         mainlist = []
         pwlist = list(passwordss)
         runs = 0
