@@ -25,8 +25,8 @@ def obtain(request):
         return render(request, 'lisence/index.html')
     else:
         #gen uuid
-        model = models.lisence()
-        username = request.user.username
+        model = models.apikey()
+
         model.name = request.POST.get('name')
         model.key = uuid.uuid4()
         model.Type = "Normal"
@@ -103,10 +103,10 @@ def Deactveate(request):
         return render(request, 'lisence/index.html')
     else:
         token = request.POST.get('key')
-        model = models.lisence()
+        model = models.apikey()
         try:
-            model = models.lisence.objects.get(key=token)
-        except models.lisence.DoesNotExist:
+            model = models.apikey.objects.get(key=token)
+        except models.apikey.DoesNotExist:
             return JsonResponse({'error': 'Invalid token'}, status=403)
         model.Activations = model.Activations - 1
         model.save()
@@ -118,10 +118,10 @@ def TokenRequest(request):
         return JsonResponse({'error': 'Invalid request method'})
     else: 
         token = request.POST.get('key')
-        model = models.lisence()
+        model = models.apikey()
         try:
-            model = models.lisence.objects.get(key=token)
-        except models.lisence.DoesNotExist:
+            model = models.apikey.objects.get(key=token)
+        except models.apikey.DoesNotExist:
             return JsonResponse({'error': 'Invalid token'}, status=403)
         if model.Type == "AD User":
             #internal server

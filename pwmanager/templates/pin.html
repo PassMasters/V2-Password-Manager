@@ -1,0 +1,14 @@
+<html>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    <b>PIN:</b>
+    <input type="text" name="pin"? class="one">
+    <button type="submit" class="  btn btn-sm  btn-primary">Enter</button>
+
+</form>
+{% for item in msg %}
+<p> <b>Errors: </b>{{ item.msg }}</p>
+{% endfor %}
+</body>
+</html>
