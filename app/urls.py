@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from pwmanager.views import startpage as home
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include('api.urls')),
     path("passwords/", include('pwmanager.urls')),
     path("secure/", include('security.urls')),
     path('accounts/', include("django.contrib.auth.urls")),
-    path('', pwmanager.views.startpage)
+    path('', home)
 ]
