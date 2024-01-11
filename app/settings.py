@@ -76,12 +76,20 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+STUPID_SSL_CERT = os.path.join(BASE_DIR,"ca1.pem")
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': {
+        'ENGINE': 'django_cockroachdb',
+        'NAME': 'defaultdb',
+        'USER': 'fluffy',
+        'PASSWORD': 'GiIM7qFat6GqU8Bfw6k1eg',
+        'HOST': 'pale-efreet-719.jxf.cockroachlabs.cloud',
+        'PORT': '26257',
+        'OPTIONS': {
+            'sslmode': 'verify-full',
+            'sslrootcert': STUPID_SSL_CERT,
+        },
+    },
 }
 
 
