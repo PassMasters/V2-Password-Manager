@@ -15,4 +15,4 @@ pyotp==2.9.0
 whitenoise==6.5.0
 bcrypt
 psycopg2-binary
-django-cockroachdb==4.0
+django-cockroachdb==4.2
