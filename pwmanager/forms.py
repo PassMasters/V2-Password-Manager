@@ -5,7 +5,7 @@ from django import forms
 class PwEdit(forms.ModelForm):
     class Meta:
         model = PW
-        fields = '__all__'
+        fields = ["Username", "Password", "URL", "TOTP", "Notes"]
 
 class Pwmake(forms.ModelForm):
     class Meta:

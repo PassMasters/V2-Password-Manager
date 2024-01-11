@@ -21,5 +21,8 @@
     <button type="submit" class="  btn btn-sm  btn-primary" formmethod="post">Enter</button>
 
 </form>
+{% for msg in msg %}
+<p> <b>Errors: </b>{{ item.msg }}</p>
+{% endfor %}
 </div>
 </html>

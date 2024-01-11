@@ -4,10 +4,12 @@ import bcrypt, Crypto #crypt, Crypto
 from django.contrib.auth.models import User
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import PW, Encryption
 from security.models import PWcheck 
-from django.shortcuts import redirect
+from .forms import PwEdit
+from django.shortcuts import redirect, get_object_or_404
 import os
 import pyotp
 from security import crypto
@@ -57,11 +59,22 @@ def deleteAccount(request):
 def add(request):
     if request.method == "POST":
         ekey = Encryption.objects.get(Owner=request.user)
+        checkmodel = PWcheck.objects.get(Owner=request.user)
+        answer = checkmodel.Answer
+        data = eval(checkmodel.Data)
         pwmodel = PW()
         salt = bytes(ekey.Salt, 'UTF-8')
         iv = eval(bytes(ekey.IV, 'UTF-8'))
         pin = bytes(request.POST.get('pin'),'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
+        keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+        datade = keys.decrypt(data)
+        padding_length = datade[-1]
+        plaintext_bytes = datade[:-padding_length]
+        datade = str(plaintext_bytes, 'UTF-8')
+        if datade != answer:
+            return render(request, "pin.html", {'msg': "wrong pin"})
+        
         user = request.POST['username']
         pw = bytes(request.POST['Password'],'UTF-8')
         newPassword = crypto.encrypt(pw, encryption_key, request.user, iv)
@@ -104,7 +117,7 @@ def homepage(request):
                 pwbytes = eval(bytes(datadict['Password'], 'UTF-8'))
                 keys = AES.new(encryption_key, AES.MODE_CBC, iv)
                 try:
-                    password = crypto.d2(pwbytes, keys)
+                    password = crypto.decrypt(pwbytes, keys)
                 except  Exception as e:
                     if runs == 1:
                         print("wrong pin")
@@ -143,3 +156,44 @@ def homepage(request):
         return render (request, 'pw_homepage.html', {'pwlist': mainlist})
     else:
          return render(request, 'pin.html')
+
+@login_required
+def Edit(request, pk):
+    pw = get_object_or_404(PW, pk=pk)
+    ekey = Encryption.objects.get(Owner=request.user)
+    salt = bytes(ekey.Salt,'UTF-8')
+    if request.method == 'POST':
+       pin = bytes(request.POST.get('pin'), 'UTF-8')
+       key = bcrypt.kdf(pin, salt, rounds=500, desired_key_bytes=32)
+       form = PwEdit(request.POST, request.FILES, instance=pw)
+       if form.is_valid():
+            pw.Password = crypto.encrypt(form.cleaned_data.get('Password'), key, request.user, )
+            pw.TOTP = crypto.encrypt(form.cleaned_data.get('TOTP'), key, request.user)
+            pw.save()
+            form.save()
+            return redirect('/')
+    else:
+        if request.method =='GET':
+            try:
+                if pw.Owner != request.user:
+                    return JsonResponse({'msg': "ACCESS DENIED"}, status=403)
+                data = request.GET.get("pin")
+                pin = bytes(data, 'UTF-8')
+                key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)
+                form_initial = crypto.decryptform( pw, key, request.user)
+                form = PwEdit(instance=pw, initial=form_initial)
+                return render(request, 'form.html', {'form': form})
+            except Exception as e:
+                return render(request, 'pinget.html')
+
+@login_required
+def Destory(request, pk):
+    pw = get_object_or_404(PW, pk=pk)
+    if request.method == 'POST':
+        if pw.Owner == request.user:
+            pw.delete()
+            return redirect('/')
+        else:
+             return JsonResponse({'msg': "ACCESS DENIED"})
+    else:
+        return render(request, "delete.html")

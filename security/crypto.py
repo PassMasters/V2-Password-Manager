@@ -59,10 +59,17 @@ def decryptform( obj, key, user):
             'TOTP': x3
             }
         return form_initial
-def encrypt(obj, key, user, iv):
+def encrypt(obj, key, user):
+    ekey = Encryption.objects.get(Owner=user)
+    iv = eval(bytes(ekey.IV, 'UTF-8'))
     keys = AES.new(key, AES.MODE_CBC, iv)
-    v1 = bytes(obj, 'UTF-8')
+    v1 = obj
     padding_length = 16 - (len(v1) % 16)
-    plaintext_bytes = v1 + bytes([padding_length]) * padding_length
+    try:
+        plaintext_bytes = v1 + bytes([padding_length]) * padding_length
+    except Exception:
+         v1 = bytes(obj, 'UTF-8')
+         padding_length = 16 - (len(v1) % 16)
+         plaintext_bytes = v1 + bytes([padding_length]) * padding_length
     v2 = keys.encrypt(plaintext_bytes)
     return v2

@@ -8,5 +8,6 @@ urlpatterns = [
     path('destroyaccount', views.deleteAccount),
     path('add',  views.add),
     path('setup', views.setup),
-    path('home', views.homepage)
+    path('home', views.homepage),
+    path('edit/<int:pk>/', views.Edit, name='edit'),
 ]
