@@ -30,7 +30,7 @@ def passwordreset(request):
         else:
             newpw = request.POST.get('newpw')
             user2.set_password(newpw)
-            return render(request, 'complete.html')
+    return render(request, 'complete.html')
 
 
 def logon(request):
