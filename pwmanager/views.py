@@ -63,7 +63,7 @@ def add(request):
         answer = checkmodel.Answer
         data = eval(checkmodel.Data)
         pwmodel = PW()
-        salt = bytes(ekey.Salt, 'UTF-8')
+        salt = eval(bytes(ekey.Salt, 'UTF-8'))
         iv = eval(bytes(ekey.IV, 'UTF-8'))
         pin = bytes(request.POST.get('pin'),'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
@@ -77,7 +77,7 @@ def add(request):
         
         user = request.POST['username']
         pw = bytes(request.POST['Password'],'UTF-8')
-        newPassword = crypto.encrypt(pw, encryption_key, request.user, iv)
+        newPassword = crypto.encrypt(pw, encryption_key, request.user)
         pw = newPassword
         TOTP = request.POST['TOTP']
         if TOTP == "":
@@ -85,7 +85,7 @@ def add(request):
             newTOTP = T2
         else:      
             T2 = bytes(TOTP, 'UTF-8')
-            newTOTP = crypto.encrypt(T2, encryption_key, request.user, iv)
+            newTOTP = crypto.encrypt(T2, encryption_key, request.user)
             TOTP = newTOTP
         Date = request.POST['date']
         pwmodel.Username = user
@@ -103,7 +103,7 @@ def homepage(request):
         
         passwordss = PW.objects.filter(Owner=request.user).values('Username', 'Password', 'TOTP', 'pk', 'Notes', 'URL')
         ekey = Encryption.objects.get(Owner=request.user)
-        salt = bytes(ekey.Salt,'UTF-8')
+        salt = eval(bytes(ekey.Salt,'UTF-8'))
         iv = eval(bytes(ekey.IV, 'UTF-8'))
         pin = bytes(request.POST.get('pin'), 'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)

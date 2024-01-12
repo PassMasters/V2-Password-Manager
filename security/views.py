@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from pwmanager.models import Encryption
 from .models import PWcheck
@@ -18,15 +18,11 @@ def passwordreset(request):
         pin = bytes(request.POST.get('pin'), 'UTF-8')
         salt = eval(bytes(ekey.Salt, 'UTF-8'))
         iv = eval(bytes(ekey.IV, 'UTF-8'))
-        print(salt)
-        print(iv)
         encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
         print(encryption_key)
         keys = AES.new(encryption_key, AES.MODE_CBC, iv)
         answer = pwcheck.Answer
         data = eval(bytes(pwcheck.Data, 'UTF-8'))
-        print(data)
-        print(data)
         try:
             datade = crypto.decrypt(data, keys)
             if datade == '':
@@ -42,7 +38,9 @@ def passwordreset(request):
             newpw = request.POST.get('newpw')
             user2.set_password(newpw)
             return render(request, 'complete.html')
-
+def logout(request):
+    user = request.user
+    logout(request, user)
 
 def logon(request):
     if request.method != "POST":
