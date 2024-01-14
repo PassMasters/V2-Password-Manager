@@ -52,7 +52,9 @@ def logon(request):
         password=password)
         if user is not None :
             login(request, user)
-            return redirect ('/')
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
+
         else: 
             context = {
                 'error': "Invalid Username or Password"
@@ -73,11 +75,12 @@ def signup1(request):
             context = {
                 'error': "User Already Exsits"
                 }
-            return render(request, "registration/login.html", context)
+            return render(request, "registration/signup.html", context)
         user.save()
         user = authenticate(request,  username= username,
         password=password)
         if user is not None :
             login(request, user)
-            return redirect ('/')
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
 
