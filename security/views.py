@@ -53,16 +53,27 @@ def logon(request):
         if user is not None :
             login(request, user)
             return redirect ('/')
+        else: 
+            context = {
+                'error': "Invalid Username or Password"
+                }
+            return render(request, "registration/login.html", context)
 def signup1(request):
     if request.method != "POST":
         return render(request, "registration/signup.html")
     else:
         username = request.POST['Username']
         password = request.POST['Password']
-        user = User.objects.create_user(
+        try:
+            user = User.objects.create_user(
         username=  username,
         password=        password
     )
+        except Exception:
+            context = {
+                'error': "User Already Exsits"
+                }
+            return render(request, "registration/login.html", context)
         user.save()
         user = authenticate(request,  username= username,
         password=password)

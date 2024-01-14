@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\pwmanager"
+    "\\pwmanager",
+    "\\pwmanager\\templates",
+    "\\pwmanager\\templates\\registration",
+    "\\security",
+    "\\security\\templates"
   ],
   "SelectedNode": "\\pwmanager\\views.py",
   "PreviewInSolutionExplorer": false

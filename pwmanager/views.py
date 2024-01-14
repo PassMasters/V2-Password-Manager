@@ -24,9 +24,14 @@ def setup(request):
     if request.method == "POST":
         ekey = Encryption()
         password = bytes(request.POST.get('pin'), 'UTF-8')
+        pw2 = bytes(request.POST.get('pin2'), 'UTF-8')
         if len(password) >= 6:
             salt = os.urandom(16)
             iv = os.urandom(16)
+            if password != pw2:
+                context = {
+                        'error': "Pin does not match"}
+                return render(request, 'pinsetup.html', context)
             ekey.Owner = request.user
             ekey.IV = iv
             ekey.Salt = salt
@@ -34,16 +39,31 @@ def setup(request):
             encryption_key = bcrypt.kdf(password, salt, rounds=500,  desired_key_bytes=32)
             model = PWcheck()
             model.Owner = request.user
-            word = bytes("munchyisverybadthisdecryptedwell", 'UTF-8')
-            keys = AES.new(encryption_key, AES.MODE_CBC, iv)
-            model.Data = crypto.encrypt2(word, keys)
-            model.Answer = str(word, 'UTF-8')
-            model.save()
+            try:
+                word = bytes("munchyisverybadthisdecryptedwell", 'UTF-8')
+                keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+                model.Data = crypto.encrypt2(word, keys)
+                model.Answer = str(word, 'UTF-8')
+            except Exception:
+                ekey.delete()
+                context = {
+                        'error': "We are sorry. Your account could not complete the setup process.  "}
+                return render(request, 'pinsetup.html', context)
+            try:
+                test = Encryption.objects.get(Owner=request.user)
+                if test:
+                    context = {
+                        'error': "We detected an atempt to create 2 pins. This can brick your account. "}
+                    return render(request, 'pinsetup.html', context, status=500)
+            except Exception:
+                model.save()
         else:
-            return redirect('passwords/error')
+            context = {
+                        'error': "Pin does not meet requirements. It must be at least 6 digits long. "}
+            return render(request, 'pinsetup.html', context)
         return redirect('/')
     else:
-        return render(request, "pin.html")
+        return render(request, "pinsetup.html")
 @login_required
 def deleteAccount(request):
     if request.method == 'POST':
