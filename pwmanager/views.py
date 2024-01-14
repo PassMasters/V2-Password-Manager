@@ -31,7 +31,7 @@ def setup(request):
             iv = os.urandom(16)
             if password != pw2:
                 context = {
-                        'error': "Pin does not match"}
+                        'error': "PIN does not match"}
                 return render(request, 'pinsetup.html', context)
             ekey.Owner = request.user
             ekey.IV = iv
@@ -54,7 +54,7 @@ def setup(request):
                 test = PWcheck.objects.get(Owner=request.user)
                 if test:
                     context = {
-                        'error': "We detected an atempt to create 2 pins. This can brick your account. "}
+                        'error': "We detected an attempt to create 2 pins. This can brick your account. "}
                     return render(request, 'pinsetup.html', context, status=500)
             except Exception:
                 model.save()
