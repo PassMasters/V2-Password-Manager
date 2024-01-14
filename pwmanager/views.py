@@ -16,7 +16,7 @@ import pyotp
 from security import crypto
 # Create your views here.
 n = 9999999999
-
+@login_required
 def startpage(request):
     return render(request, "startpage.html")
 
