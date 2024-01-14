@@ -54,7 +54,7 @@ def setup(request):
                 test = PWcheck.objects.get(Owner=request.user)
                 if test:
                     context = {
-                        'error': "We detected an attempt to create 2 pins. This can brick your account. "}
+                        'error': 'We detected an attempt to create 2 pins. This can brick your account. Make sure you press "Enter" only once.'}
                     return render(request, 'pinsetup.html', context, status=500)
             except Exception:
                 model.save()
