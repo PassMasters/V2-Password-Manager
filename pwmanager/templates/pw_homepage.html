@@ -8,7 +8,7 @@
 
 
 </head>
-<body class="bg-black text-white">
+<body class="bg-white text-black">
 <style>
   .icon-cog.icon-white { color: white; }
 
@@ -24,11 +24,11 @@ hr {
   border-color: white;
 }
 </style>
-  <nav class="navbar bg-black" data-bs-theme="dark" >
+  <nav class="navbar bg-white" data-bs-theme="white" >
     <br>
     <br>
     <div class="container-fluid">
-     <h4> <a class="h3 text-white mx-2 my-3" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
+     <h4> <a class="h3 text-black mx-2 my-3" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
      <!-- <form class="d-flex" role="search">
         <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
         <button class="btn-sm btn btn-outline-success" type="submit">Search</button>
@@ -40,17 +40,17 @@ hr {
       </button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-          <h4> <a class="h3 text-white" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
+          <h4> <a class="h3 text-black" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
 
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav flex-grow-1  justify-content-end pe-3">
           <li class="nav-item">
-            <a class="btn btn-sm btn-outline-light my-2  w-100" aria-current="page" href="/passwords/add">Add Password</a>
+            <a class="btn btn-sm btn-outline-secondary my-2  w-100" aria-current="page" href="/passwords/add">Add Password</a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-sm btn-outline-light my-2  w-100" aria-current="page" href="/passwords/home">View & Edit Passwords</a>
+            <a class="btn btn-sm btn-outline-secondary my-2  w-100" aria-current="page" href="/passwords/home">View & Edit Passwords</a>
           </li>
           <li class="nav-item">
             <a class="btn btn-sm btn-primary my-2  w-100" aria-current="page" href="/accounts/logout">Log Out</a>
@@ -119,9 +119,9 @@ hr {
           <div class="row justify-content-center align-items-center">
             {% for item in pwlist %}
 
-              <div class="col-sm-3 mb-3 mb-sm-0 mx-5 my-5 bg-black text-white">
-                <div class="card bg-black text-white">
-                  <div class="card-body bg-black text-white" >
+              <div class="col-sm-3 mb-3 mb-sm-0 mx-5 my-5 bg-black text-black">
+                <div class="card bg-white text-black">
+                  <div class="card-body bg-white text-black" >
 
                     <h5 class="card-title">{{ item.Username }}</h5>
                     <hr>

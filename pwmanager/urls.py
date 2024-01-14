@@ -4,7 +4,7 @@ from . import views
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 urlpatterns = [
-    path('', views.startpage),
+    path('', views.homepage),
     path('destroyaccount', views.deleteAccount),
     path('add',  views.add),
     path('setup', views.setup),
