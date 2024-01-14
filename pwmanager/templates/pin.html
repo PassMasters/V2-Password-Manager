@@ -9,20 +9,22 @@
 
     }
 </style>
-    <div class="container">
-<body>
-    <br>
-    <br>
-  <!--  <h5>Enter your PIN to continue:</h5>-->
-    <h3>Enter your PIN to continue:</h3> <br></body> <!--or h6-->
-<form action="" method="GET">
-    <b>PIN:</b>
-    <input type="text" name="pin"? class="one">
-    <button type="submit" class="  btn btn-sm  btn-primary" formmethod="post">Enter</button>
+<div class="container">
+    <body>
+        <br>
+        <br>
+        <!--  <h5>Enter your PIN to continue:</h5>-->
+        <h3>Enter your PIN to continue:</h3> <br>
+    </body> <!--or h6-->
+    <form action="" method="GET">
+        <b>PIN:</b>
+        <input type="text" name="pin" ? class="one">
+        <input type="text" name="pin2" ? class="one">
+        <button type="submit" class="  btn btn-sm  btn-primary" formmethod="post">Enter</button>
 
-</form>
-{% for msg in msg %}
-<p> <b>Errors: </b>{{ item.msg }}</p>
-{% endfor %}
+    </form>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
 </div>
 </html>
