@@ -38,9 +38,6 @@ def passwordreset(request):
             newpw = request.POST.get('newpw')
             user2.set_password(newpw)
             return render(request, 'complete.html')
-def logout(request):
-    user = request.user
-    logout(request, user)
 
 def logon(request):
     if request.method != "POST":

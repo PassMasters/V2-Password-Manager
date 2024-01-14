@@ -100,6 +100,7 @@ def add(request):
             return render(request, "pin.html", context)
         
         user = request.POST['username']
+        notes = request.POST['Notes']
         pw = bytes(request.POST['Password'],'UTF-8')
         newPassword = crypto.encrypt(pw, encryption_key, request.user)
         pw = newPassword
@@ -117,6 +118,7 @@ def add(request):
         pwmodel.TOTP = newTOTP
         pwmodel.Date_Created = Date
         pwmodel.Owner = request.user
+        pwmodel.Notes = notes
         pwmodel.save()
         return redirect('/')
     else: 
