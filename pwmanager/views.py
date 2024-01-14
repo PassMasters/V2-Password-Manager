@@ -175,6 +175,7 @@ def homepage(request):
                 pk = datadict['pk']
                 pwpk = PW.objects.get(pk=pk)
                 pw_url= pwpk.get_absolute_url()
+                pw_del = pwpk.get_delete_url()
                 notes1 = datadict['Notes']
                 url1 = datadict['URL']
                 data_dict = {
@@ -183,7 +184,8 @@ def homepage(request):
                 "TOTP": totpcalc,
                 "URL" : url1,
                 "notes" : notes1,
-                "EditURL": pw_url
+                "EditURL": pw_url,
+                "DeleteURL": pw_del,
             }
                 mainlist.append(data_dict)
         return render (request, 'pw_homepage.html', {'pwlist': mainlist})
@@ -200,6 +202,18 @@ def Edit(request, pk):
        pin = bytes(request.POST.get('pin'), 'UTF-8')
        key = bcrypt.kdf(pin, salt, rounds=500, desired_key_bytes=32)
        form = PwEdit(request.POST, request.FILES, instance=pw)
+       checkmodel = PWcheck.objects.get(Owner=request.user)
+       answer = checkmodel.Answer
+       edata = eval(checkmodel.Data)
+       iv = eval(bytes(ekey.IV, 'UTF-8'))
+       datade = keys.decrypt(edata)
+       padding_length = datade[-1]
+       plaintext_bytes = datade[:-padding_length]
+       datade = str(plaintext_bytes, 'UTF-8')
+       if datade != answer:
+            context = {
+                'error': "wrong pin"}
+            return render(request, "form.html", context)
        if form.is_valid():
             pw.Password = crypto.encrypt(form.cleaned_data.get('Password'), key, request.user, )
             pw.TOTP = crypto.encrypt(form.cleaned_data.get('TOTP'), key, request.user)

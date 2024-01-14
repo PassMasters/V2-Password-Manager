@@ -2,6 +2,9 @@
     {% csrf_token %}
     {{ form }}
     <label for="pin">PIN:</label>
-    <input type="password" name="pin", id="pin">
+    <input type="password" name="pin" , id="pin">
     <input type="submit" value="Submit">
 </form>
+    {% if error %}
+<p style="color: red;">{{ error }}</p>
+    {% endif %}

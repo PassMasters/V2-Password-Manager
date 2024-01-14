@@ -10,4 +10,5 @@ urlpatterns = [
     path('setup', views.setup),
     path('home', views.homepage),
     path('edit/<int:pk>/', views.Edit, name='edit'),
+    path('delete/<int:pk>/', views.Destory, name='delete'),
 ]

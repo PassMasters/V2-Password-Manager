@@ -16,6 +16,8 @@ class PW(models.Model):
 
     def get_absolute_url(self):
         return reverse('edit', args=[self.id])
+    def get_delete_url(self):
+        return reverse('delete', args=[self.id])
 class Encryption(models.Model):
    Owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
    Salt = models.CharField(max_length=500, default="0")

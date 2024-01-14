@@ -156,7 +156,4 @@ def TokenRequest(request):
     }
         token = jwt.encode(payload, secret, algorithm='HS256')
         context = {'token': token}
-        print(token)
-        print(context)
-        print(jwt.decode(token, secret, algorithms=['HS256']))
         return JsonResponse(context, status=200, safe=False)

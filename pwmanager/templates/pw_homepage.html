@@ -121,16 +121,17 @@ hr {
 
               <div class="col-sm-3 mb-3 mb-sm-0 mx-5 my-5 bg-black text-black">
                 <div class="card bg-white text-black">
-                  <div class="card-body bg-white text-black" >
+                    <div class="card-body bg-white text-black">
 
-                    <h5 class="card-title">{{ item.Username }}</h5>
-                    <hr>
-                    <p class="card-text"> <b>Password: </b>{{ item.Password }}</p>
+                        <h5 class="card-title">{{ item.Username }}</h5>
+                        <hr>
+                        <p class="card-text"> <b>Password: </b>{{ item.Password }}</p>
 
-                    <p class="card-text"> <b>TOTP:</b> {{ item.TOTP }}</p>
-
-                    <a href="{{ item.EditURL }}" class="btn btn-sm btn-secondary">Edit</a>
-                  </div>
+                        <p class="card-text"> <b>TOTP:</b> {{ item.TOTP }}</p>
+                        <p class="card-text"> <b>Notes:</b> {{ item.notes }}</p>
+                        <a href="{{ item.EditURL }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <a href="{{ item.DeleteURL }}" class="btn btn-sm btn-secondary">Delete</a>
+                    </div>
                 </div>
               </div>
    
