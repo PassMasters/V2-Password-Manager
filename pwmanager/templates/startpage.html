@@ -81,6 +81,40 @@
                 </div>
 
         </nav>
+        <br>    
+        <div class="container">
+        <h2>Welcome!</h2>
+        {% if user.is_authenticated %}
+<p>Hey there, {{user.username}}<!--<b>{{user.username}}</b> -->! Welcome to PassMasters! Here is a welcome guide on how to use the PassMasters Password Manager 😊.</p>
+<hr class="w-75">
+{% else %}
+<p>Hey there!</p>
 
-        <h1>Home:</h1>
+{% endif %}
+<br>
+<h4>1. Create PIN</h4>
+            <li >To create a PIN, visit the link below.</li>
+            <a class="btn btn-sm btn-outline-secondary my-2  w-25" aria-current="page" href="/passwords/setup">Create PIN</a>
+            <br>
+            <br>
+<h4>2. Keep your PIN safe!</h4>
+<li> Make sure you write it somewhere other than PassMasters!</li>
+
+            <li>Write your PIN down somewhere safe. Your PIN cannot be recovered!</li>
+            <li>You need to know your PIN to use this site. It is used to authenticate throughout PassMasters.</li>
+            <br>
+
+   <br>
+   <h4>3. Add a Credential</h4>
+   <li >To add a credential, visit the link below.</li>
+   <a class="btn btn-sm btn-outline-secondary my-2  w-25" aria-current="page" href="/passwords/add">Add Credential to PassMasters</a>
+   <br>
+   <br>
+   <br>
+   <h4>4. View Credential Entries</h4>
+   <li >To see credentials, click the link below.</li>
+   <a class="btn btn-sm btn-outline-secondary my-2  w-25" aria-current="page" href="/passwords/home">View Your Credential Entries on PassMasters</a>
+   <br>
+   <br>
+     
      
