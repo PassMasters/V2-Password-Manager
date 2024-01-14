@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 import secrets
 import bcrypt, Crypto #crypt, Crypto
@@ -30,7 +31,7 @@ def setup(request):
             iv = os.urandom(16)
             if password != pw2:
                 context = {
-                        'error': "Pin does not match"}
+                        'error': "PIN does not match"}
                 return render(request, 'pinsetup.html', context)
             ekey.Owner = request.user
             ekey.IV = iv
@@ -50,10 +51,10 @@ def setup(request):
                         'error': "We are sorry. Your account could not complete the setup process.  "}
                 return render(request, 'pinsetup.html', context)
             try:
-                test = Encryption.objects.get(Owner=request.user)
+                test = PWcheck.objects.get(Owner=request.user)
                 if test:
                     context = {
-                        'error': "We detected an atempt to create 2 pins. This can brick your account. "}
+                        'error': 'We detected an attempt to create 2 pins. This can brick your account. Make sure you press "Enter" only once.'}
                     return render(request, 'pinsetup.html', context, status=500)
             except Exception:
                 model.save()
@@ -93,7 +94,10 @@ def add(request):
         plaintext_bytes = datade[:-padding_length]
         datade = str(plaintext_bytes, 'UTF-8')
         if datade != answer:
-            return render(request, "pin.html", {'msg': "wrong pin"})
+            context = {
+                'error': "wrong pin"}
+            
+            return render(request, "pin.html", context)
         
         user = request.POST['username']
         pw = bytes(request.POST['Password'],'UTF-8')
@@ -120,7 +124,9 @@ def add(request):
 @login_required
 def homepage(request):
     if request.method == 'POST':
-        
+        checkmodel = PWcheck.objects.get(Owner=request.user)
+        answer = checkmodel.Answer
+        data = eval(checkmodel.Data)
         passwordss = PW.objects.filter(Owner=request.user).values('Username', 'Password', 'TOTP', 'pk', 'Notes', 'URL')
         ekey = Encryption.objects.get(Owner=request.user)
         salt = eval(bytes(ekey.Salt,'UTF-8'))
@@ -130,6 +136,17 @@ def homepage(request):
         mainlist = []
         pwlist = list(passwordss)
         runs = 0
+        keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+        datade = keys.decrypt(data)
+        padding_length = datade[-1]
+        plaintext_bytes = datade[:-padding_length]
+        datade = str(plaintext_bytes, 'UTF-8')
+        if datade != answer:
+            context = {
+                'error': "wrong pin"}
+            return render(request, "pin.html", context)
+        else:
+            runs=0
         for i in range(len(pwlist)):
                 datadict = dict(pwlist[i])
                 username = datadict['Username']
@@ -139,12 +156,8 @@ def homepage(request):
                 try:
                     password = crypto.decrypt(pwbytes, keys)
                 except  Exception as e:
-                    if runs == 1:
-                        print("wrong pin")
-                        return render(request, "pin.html", {'msg': str(e, 'UTF-8')})
-                    else:
-                        print("error")
-                        return render(request, "error.html", {'msg': str(e, 'UTF-8')})
+                    context = {'error': "We are very sorry. Something has gone wrong. Please contact support"}
+                    return render(request, "pin.html", context)
                 etotp = datadict['TOTP']
                 if etotp == "":
                     totpcalc = "N/A"
@@ -181,7 +194,8 @@ def homepage(request):
 def Edit(request, pk):
     pw = get_object_or_404(PW, pk=pk)
     ekey = Encryption.objects.get(Owner=request.user)
-    salt = bytes(ekey.Salt,'UTF-8')
+    salt = eval(bytes(ekey.Salt,'UTF-8'))
+    
     if request.method == 'POST':
        pin = bytes(request.POST.get('pin'), 'UTF-8')
        key = bcrypt.kdf(pin, salt, rounds=500, desired_key_bytes=32)
@@ -198,8 +212,21 @@ def Edit(request, pk):
                 if pw.Owner != request.user:
                     return JsonResponse({'msg': "ACCESS DENIED"}, status=403)
                 data = request.GET.get("pin")
+                checkmodel = PWcheck.objects.get(Owner=request.user)
+                answer = checkmodel.Answer
+                edata = eval(checkmodel.Data)
                 pin = bytes(data, 'UTF-8')
                 key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)
+                iv = eval(bytes(ekey.IV, 'UTF-8'))
+                keys = AES.new(key, AES.MODE_CBC, iv)
+                datade = keys.decrypt(edata)
+                padding_length = datade[-1]
+                plaintext_bytes = datade[:-padding_length]
+                datade = str(plaintext_bytes, 'UTF-8')
+                if datade != answer:
+                    context = {
+                'error': "wrong pin"}
+                    return render(request, "pinget.html", context)
                 form_initial = crypto.decryptform( pw, key, request.user)
                 form = PwEdit(instance=pw, initial=form_initial)
                 return render(request, 'form.html', {'form': form})
