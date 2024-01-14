@@ -13,7 +13,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
@@ -124,7 +126,74 @@ body {
 
     </style>
 
-    
+<nav class="navbar bg-white" data-bs-theme="white">
+  <br>
+  <br>
+  <div class="container-fluid">
+      <h4> <a class="h3 text-black mx-2 my-3" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn-sm btn btn-outline-success" type="submit">Search</button>
+      </form>  -->
+      <button class="navbar-toggler" type="button" id="navbarToggleExternalContent" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="material-symbols-outlined">
+              menu
+          </span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+              <h4> <a class="h3 text-black" href="/" style="font-family: Playfair Display; text-decoration: none;">PassMasters</a></h4>
+
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+              <ul class="navbar-nav flex-grow-1  justify-content-end pe-3">
+                  <li class="nav-item">
+                      <a class="btn btn-sm btn-outline-secondary my-2  w-100" aria-current="page" href="/passwords/add">Add Password</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="btn btn-sm btn-outline-secondary my-2  w-100" aria-current="page" href="/passwords/home">View & Edit Passwords</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="btn btn-sm btn-primary my-2  w-100" aria-current="page" href="/accounts/logout">Log Out</a>
+                  </li>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+                  <br>
+                  <br>
+                  <hr>
+                  <li class="nav-item">
+                      <a class="btn btn-sm btn-outline-danger w-100" aria-current="page" href="#">Delete Account</a>
+                  </li>
+                  <hr>
+
+          </div>
+      </div>
+
+</nav>
     <!-- Custom styles for this template -->
     <link href="sign-in.css" rel="stylesheet">
   </head>
@@ -155,29 +224,7 @@ body {
               <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
               <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-              <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-                      <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-                      Light
-                      <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                  </button>
-              </li>
-              <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                      <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
-                      Dark
-                      <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                  </button>
-              </li>
-              <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
-                      <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
-                      Auto
-                      <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                  </button>
-              </li>
-          </ul>
+         
       </div>
 
 
@@ -185,7 +232,7 @@ body {
           <form method="post" action="">
               <!--
             <img class="mb-4" src="a3438678-c639-4aa7-b40c-e2601ecdf5a6.jpg" alt="" width="72" height="57">-->
-              <h1 class="h3 mb-3 fw-normal">PassMasters Sign In</h1>
+              <h1 class="h3 mb-3 fw-normal font-family: Playfair Display; text-decoration: none;">PassMasters Sign In</h1>
 
               <div class="form-floating">
                   <input type="username" class="form-control" id="floatingInput" placeholder="Username" name="Username">
