@@ -92,30 +92,34 @@
 
 
 <body>
-    <h2>Edit a PW entry</h2>
-    <div class="container mt-5">
-
-        <form method="post" action="" class="form">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-field">
-                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label_tag }}</label>
-                <!-- Display the value of the form field -->
-                <input type="text" value="{{ field.value }}" class="form-control">
-            </div>
-            <br />
-            {% endfor %}
-            <div class="form-field">
-                <label for="2" class="form-label">PIN:</label>
-                <input type="password" name="pin" value="" id="2" class="form-control"/>
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <div class="container">
+        <br>
+        <h2>Edit a PW entry</h2>
+        <div class="container mt-5">
+    
+            <form method="post" action="" class="form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label_tag }}</label>
+                    <!-- Display the value of the form field -->
+                    <input type="text" value="{{ field.value }}" class="form-control">
+                </div>
+                <br />
+                {% endfor %}
+                <div class="form-field">
+                    <label for="2" class="form-label">PIN:</label>
+                    <input type="password" name="pin" value="" id="2" class="form-control"/>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
     </div>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
+    
 </body>
 
 
