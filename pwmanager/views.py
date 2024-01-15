@@ -136,12 +136,14 @@ def add(request):
             newTOTP = crypto.encrypt(T2, encryption_key, request.user)
             TOTP = newTOTP
         Date = request.POST['date']
+        URL = request.POST['URL']
         pwmodel.Username = user
         pwmodel.Password = newPassword
         pwmodel.TOTP = newTOTP
         pwmodel.Date_Created = Date
         pwmodel.Owner = request.user
         pwmodel.Notes = notes
+        pwmodel.URL = URL
         pwmodel.save()
         return redirect('/')
     else: 
@@ -270,9 +272,7 @@ def Edit(request, pk):
                 form = PwEdit(instance=pw, initial=form_initial)
                 return render(request, 'form.html', {'form': form})
             except Exception as e:
-                context = {
-                    'error': str(e, 'UTF-8')}
-                return render(request, 'pinget.html', context)
+                return render(request, 'pinget.html')
 
 @login_required
 def Destory(request, pk):
