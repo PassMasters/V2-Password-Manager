@@ -137,6 +137,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
   #  os.path.join(BASE_DIR, "static"),
 
 #)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'pwmanager/templates/registration')]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/login?next=/passwords/setup'
 LOGIN_REDIRECT_URL = '/passwords/home'

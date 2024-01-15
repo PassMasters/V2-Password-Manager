@@ -69,7 +69,27 @@ def setup(request):
 def deleteAccount(request):
     if request.method == 'POST':
         ekey = Encryption.objects.get(Owner=request.user)
+        salt = eval(bytes(ekey.Salt,'UTF-8'))
+        iv = eval(bytes(ekey.IV, 'UTF-8'))
+        pin = bytes(request.POST.get('pin'), 'UTF-8')
+        encryption_key = bcrypt.kdf(pin, salt, rounds=500,  desired_key_bytes=32)
+        checkmodel = PWcheck.objects.get(Owner=request.user)
+        answer = checkmodel.Answer
+        data = eval(checkmodel.Data)
+        keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+        datade = keys.decrypt(data)
+        padding_length = datade[-1]
+        plaintext_bytes = datade[:-padding_length]
+        datade = str(plaintext_bytes, 'UTF-8')
+        if datade != answer:
+            context = {
+                'error': "wrong pin"}
+            
+            return render(request, "accountd.html", context)
+        
         ekey.delete()
+        user_entries = PW.objects.filter(Owner=request.user)
+        user_entries.delete()
         user = User.objects.get(username=request.user)
         user.delete()
         return redirect('/')

@@ -20,6 +20,7 @@ from pwmanager.views import startpage as home
 from security.views import logon as logon
 from security.views import passwordreset as pwreset
 from security.views import signup1 as signup
+from security.views import logout_user as logout
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include('api.urls')),
@@ -28,6 +29,7 @@ urlpatterns = [
     path("accounts/login/", logon),
     path('', home),
     path("accounts/signup/", signup),
-    path("accounts/pwreset/", pwreset)
+    path("accounts/pwreset/", pwreset),
+    path("accounts/logout/", logout)
 
 ]
