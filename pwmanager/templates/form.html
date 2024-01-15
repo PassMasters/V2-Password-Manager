@@ -92,7 +92,7 @@
 
 
 <body>
-    <h1>Edit a PW entry</h1>
+    <h2>Edit a PW entry</h2>
     <div class="container mt-5">
 
         <form method="post" action="" class="form">
@@ -103,11 +103,13 @@
                 <!-- Display the value of the form field -->
                 <input type="text" value="{{ field.value }}" class="form-control">
             </div>
+            <br />
             {% endfor %}
             <div class="form-field">
                 <label for="2" class="form-label">PIN:</label>
                 <input type="password" name="pin" value="" id="2" class="form-control"/>
             </div>
+            <br />
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
