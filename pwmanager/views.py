@@ -53,6 +53,7 @@ def setup(request):
             try:
                 test = PWcheck.objects.get(Owner=request.user)
                 if test:
+                    ekey.delete()
                     context = {
                         'error': 'We detected an attempt to create 2 pins. This can brick your account. Make sure you press "Enter" only once.'}
                     return render(request, 'pinsetup.html', context, status=500)
@@ -113,11 +114,13 @@ def add(request):
         padding_length = datade[-1]
         plaintext_bytes = datade[:-padding_length]
         datade = str(plaintext_bytes, 'UTF-8')
+        print(datade)
+        print(answer)
         if datade != answer:
             context = {
                 'error': "wrong pin"}
             
-            return render(request, "pin.html", context)
+            return render(request, "add.html", context)
         
         user = request.POST['username']
         notes = request.POST['Notes']
@@ -267,7 +270,9 @@ def Edit(request, pk):
                 form = PwEdit(instance=pw, initial=form_initial)
                 return render(request, 'form.html', {'form': form})
             except Exception as e:
-                return render(request, 'pinget.html')
+                context = {
+                    'error': str(e, 'UTF-8')}
+                return render(request, 'pinget.html', context)
 
 @login_required
 def Destory(request, pk):
