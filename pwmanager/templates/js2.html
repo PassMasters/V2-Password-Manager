@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copy Button Example</title>
+  <style>
+    button {
+      padding: 10px;
+      cursor: pointer;
+      background-color: transparent; /* Clear background */
+      border: none;
+      font-size: 20px;
+    }
+
+    .copied {
+      color: #4caf50; /* Check mark green color */
+    }
+  </style>
+</head>
+<body>
+
+  <textarea id="myText">Text to be copied</textarea>
+  <button onclick="copyText()">
+    <svg id="clipboard" xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+      <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+    </svg>
+    <svg id="checkmark" xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512" style="display: none;">
+      <path fill="#808080" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+    </svg>
+  </button>
+
+  <script>
+    function copyText() {
+      /* Get the text area */
+      var copyText = document.getElementById("myText");
+
+      /* Select the text inside the text area */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+      /* Copy the text to the clipboard */
+      document.execCommand("copy");
+
+      /* Update the button style and content to indicate that the text has been copied */
+      var clipboardIcon = document.getElementById("clipboard");
+      var checkmarkIcon = document.getElementById("checkmark");
+      clipboardIcon.style.display = "none";
+      checkmarkIcon.style.display = "inline";
+      var copyButton = document.querySelector("button");
+      copyButton.classList.add("copied");
+
+      /* Reset the button style and content after a short delay (optional) */
+      setTimeout(function() {
+        clipboardIcon.style.display = "inline";
+        checkmarkIcon.style.display = "none";
+        copyButton.classList.remove("copied");
+      }, 2000); // Reset after 2 seconds (adjust as needed)
+    }
+  </script>
+
+</body>
+</html>

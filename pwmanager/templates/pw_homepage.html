@@ -19,10 +19,118 @@
   'GRAD' 0,
   'opsz' 24
 }
+.card-title-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Right-align content */
+    }
 
+    .username-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-icon-username,
+    .copied-icon-username {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+    }
+
+    .copied-icon-username {
+      color: #4caf50; /* Check mark green color */
+      display: none; /* Initially hidden */
+    }
+
+    .ml-auto {
+      margin-left: auto; /* Align to the right */
+    }
+.card-text-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Right-align content */
+    }
+
+   
+    .copy-icon-username,
+    .copied-icon-username {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+    }
+
+    .copied-icon-username {
+      color: #4caf50; /* Check mark green color */
+      display: none; /* Initially hidden */
+    }
+.card-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-icon,
+    .copied-icon {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+      display: inline; /* Initially visible */
+    }
+
+    .copied-icon {
+      color: #4caf50; /* Check mark green color */
+      display: none; /* Initially hidden */
+    }
+    .password-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-icon-password,
+    .hide-icon-password {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+    }
+
+    .hide-icon-password {
+      display: none; /* Initially hidden */
+    }
+
+    .ml-auto {
+      margin-left: auto; /* Align to the right */
+    }
 hr {
-  border-color: white;
+  border-color: gray;
 }
+.copy-icon-password,
+    .copied-icon-password {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+    }
+
+    .copied-icon-password {
+      color: #4caf50; /* Check mark green color */
+      display: none; /* Initially hidden */
+    }
+
+    .totp-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-icon-totp,
+    .copied-icon-totp {
+      cursor: pointer;
+      font-size: 16px;
+      color: #808080; /* Clipboard gray color */
+    }
+
+    .copied-icon-totp {
+      color: #4caf50; /* Check mark green color */
+      display: none; /* Initially hidden */
+    }
+ 
 </style>
   <nav class="navbar bg-white" data-bs-theme="white" >
     <br>
@@ -106,35 +214,290 @@ hr {
     </div>
     
   </nav>
-<hr>
 
         <br>
 <div class="text-center ">
         <h3> <u> Passwords </u></h3>
         <p> View or Edit all your Password Entries on this page.</p>
         <br>
-        <hr >
     </div>
     
           <div class="row justify-content-center align-items-center">
             {% for item in pwlist %}
 
-              <div class="col-sm-3 mb-3 mb-sm-0 mx-5 my-5 bg-black text-black">
+              <div class="col-sm-3 mb-3 mb-sm-0 mx-5 my-5 bg-white text-black">
                 <div class="card bg-white text-black">
                     <div class="card-body bg-white text-black">
-
-                        <h5 class="card-title">{{ item.Username }}</h5>
+                      <h5 class="card-text">{{item.Username}}</h5>
+                     <!-- <h5 class="card-title-container">
+                        <span class="username-info align-items-center">
+                          {{ item.Username }}
+                          <span class="ml-auto">
+                            <span class="copy-icon-username" onclick="copyUsername()">
+                              <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+                                <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                              </svg>
+                            </span>
+                            <span class="copied-icon-username">
+                              <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
+                                <path fill="#4caf50" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                              </svg>
+                            </span>
+                          </span>
+                        </span>
+                      </h5> -->
+                     <!-- <h5 class="card-title d-flex align-items-center justify-content-between" id="username">{{ item.Username }}
+                        <span class="copy-icon mr-2" onclick="copyUsername()">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+                            <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                          </svg>
+                        </span>
+                        <span class="copied-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
+                            <path fill="#4caf50" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                          </svg>
+                        </span>
+                      </h5>-->
                         <hr>
-                        <p class="card-text"> <b>Password: </b>{{ item.Password }}</p>
+                        <p class="card-text-container">
+                          <span class="username-info align-items-center">
+                            <b class="mr-2">Username: </b><span class="username-content mx-1"> {{ item.Username }}</span>
+                          </span>
+                          <span class="copy-icon-username" onclick="copyUsername()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+                              <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                            </svg>
+                          </span>
+                          <span class="copied-icon-username">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
+                              <path fill="#4caf50" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                            </svg>
+                          </span>
+                        </p>
+                 <!--
+                        <p class="password-info">
+                          <b class="mr-2">Password:</b>
+                          <span id="passwordContent" class="password-content" type="password">{{ item.PasswordMasked }}</span>
+                          <span class="ml-auto">
+                            <span class="copy-icon-password" onclick="copyPassword()">
+                              <svg xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512">
+                                !-- Visible Icon 
+                                <path fill="#808080" d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zm151 118.3C226 97.7 269.5 80 320 80c65.2 0 118.8 29.6 159.9 67.7C518.4 183.5 545 226 558.6 256c-12.6 28-36.6 66.8-70.9 100.9l-53.8-42.2c9.1-17.6 14.2-37.5 14.2-58.7c0-70.7-57.3-128-128-128c-32.2 0-61.7 11.9-84.2 31.5l-46.1-36.1zM394.9 284.2l-81.5-63.9c4.2-8.5 6.6-18.2 6.6-28.3c0-5.5-.7-10.9-2-16c.7 0 1.3 0 2 0c44.2 0 80 35.8 80 80c0 9.9-1.8 19.4-5.1 28.2zm51.3 163.3l-41.9-33C378.8 425.4 350.7 432 320 432c-65.2 0-118.8-29.6-159.9-67.7C121.6 328.5 95 286 81.4 256c8.3-18.4 21.5-41.5 39.4-64.8L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5zm-88-69.3L302 334c-23.5-5.4-43.1-21.2-53.7-42.3l-56.1-44.2c-.2 2.8-.3 5.6-.3 8.5c0 70.7 57.3 128 128 128c13.3 0 26.1-2 38.2-5.8z"/>
+                              </svg>
+                            </span>
+                            <span class="hide-icon-password" onclick="togglePasswordVisibility()" style="display: none;">
+                              <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512">
+                                !-- Hidden Icon 
+                                <path fill="#808080" d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zm151 118.3C226 97.7 269.5 80 320 80c65.2 0 118.8 29.6 159.9 67.7C518.4 183.5 545 226 558.6 256c-12.6 28-36.6 66.8-70.9 100.9l-53.8-42.2c9.1-17.6 14.2-37.5 14.2-58.7c0-70.7-57.3-128-128-128c-32.2 0-61.7 11.9-84.2 31.5l-46.1-36.1zM394.9 284.2l-81.5-63.9c4.2-8.5 6.6-18.2 6.6-28.3c0-5.5-.7-10.9-2-16c.7 0 1.3 0 2 0c44.2 0 80 35.8 80 80c0 9.9-1.8 19.4-5.1 28.2zm51.3 163.3l-41.9-33C378.8 425.4 350.7 432 320 432c-65.2 0-118.8-29.6-159.9-67.7C121.6 328.5 95 286 81.4 256c8.3-18.4 21.5-41.5 39.4-64.8L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5zm-88-69.3L302 334c-23.5-5.4-43.1-21.2-53.7-42.3l-56.1-44.2c-.2 2.8-.3 5.6-.3 8.5c0 70.7 57.3 128 128 128c13.3 0 26.1-2 38.2-5.8z"/>
+                              </svg>
+                            </span>
+                          </span>
+                        </p> -
+                      -->
+                        
+                        <p class="card-text-container">
+                          <span class="password-info align-items-center">
+                            <b class="mr-2">Password:</b><span class="password-content mx-1" type="password"> {{ item.Password }}</span>
+                          </span>
+                          <span class="copy-icon-password" onclick="copyPassword()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+                              <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                            </svg>
+                          </span>
+                          <span class="copied-icon-password">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
+                              <path fill="#4caf50" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                            </svg>
+                          </span>
+                        </p>
+                   
+                        <p class="card-text-container">
+                          <span class="totp-info align-items-center">
+                            <b class="mr-2">TOTP: </b><span class="totp-content mx-1">{{ item.TOTP }}</span>
+                          </span>
+                          <span class="copy-icon-totp" onclick="copyTOTP()">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
+                              <path fill="#808080" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                            </svg>
+                          </span>
+                          <span class="copied-icon-totp">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
+                              <path fill="#4caf50" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                            </svg>
+                          </span>
+                        </p>
 
-                        <p class="card-text"> <b>TOTP:</b> {{ item.TOTP }}</p>
                         <p class="card-text"> <b>Notes:</b> {{ item.notes }}</p>
                         <a href="{{ item.EditURL }}" class="btn btn-sm btn-secondary">Edit</a>
                         <a href="{{ item.DeleteURL }}" class="btn btn-sm btn-secondary">Delete</a>
                     </div>
                 </div>
               </div>
-   
+              <script>
+                function copyUsername() {
+                  var usernameContent = document.querySelector(".card-title-container");
+                  var copyIcon = document.querySelector(".copy-icon-username");
+                  var copiedIcon = document.querySelector(".copied-icon-username");
+            
+                  /* Create a temporary input element */
+                  var tempInput = document.createElement("input");
+            
+                  /* Set the value of the input to the text content of the Username element */
+                  tempInput.value = usernameContent.textContent.trim();
+            
+                  /* Append the input element to the document */
+                  document.body.appendChild(tempInput);
+            
+                  /* Select the text inside the input element */
+                  tempInput.select();
+            
+                  /* Copy the text to the clipboard */
+                  document.execCommand("copy");
+            
+                  /* Remove the temporary input element */
+                  document.body.removeChild(tempInput);
+            
+                  /* Toggle visibility of copy and copied icons */
+                  copyIcon.style.display = "none";
+                  copiedIcon.style.display = "inline";
+            
+                  /* Reset after a short delay (optional) */
+                  setTimeout(function() {
+                    copyIcon.style.display = "inline";
+                    copiedIcon.style.display = "none";
+                  }, 2000); // Reset after 2 seconds (adjust as needed)
+                }
+              </script>
+            
+
+              <script>
+                function copyUsername() {
+                  var usernameContent = document.querySelector(".username-content");
+                  var copyIcon = document.querySelector(".copy-icon-username");
+                  var copiedIcon = document.querySelector(".copied-icon-username");
+            
+                  /* Create a temporary input element */
+                  var tempInput = document.createElement("input");
+            
+                  /* Set the value of the input to the text content of the Username element */
+                  tempInput.value = usernameContent.textContent.trim();
+            
+                  /* Append the input element to the document */
+                  document.body.appendChild(tempInput);
+            
+                  /* Select the text inside the input element */
+                  tempInput.select();
+            
+                  /* Copy the text to the clipboard */
+                  document.execCommand("copy");
+            
+                  /* Remove the temporary input element */
+                  document.body.removeChild(tempInput);
+            
+                  /* Toggle visibility of copy and copied icons */
+                  copyIcon.style.display = "none";
+                  copiedIcon.style.display = "inline";
+            
+                  /* Reset after a short delay (optional) */
+                  setTimeout(function() {
+                    copyIcon.style.display = "inline";
+                    copiedIcon.style.display = "none";
+                  }, 2000); // Reset after 2 seconds (adjust as needed)
+                }
+              </script>
+              
+            
+<script>
+  function copyTOTP() {
+    var totpContent = document.querySelector(".totp-content");
+    var copyIcon = document.querySelector(".copy-icon-totp");
+    var copiedIcon = document.querySelector(".copied-icon-totp");
+
+    /* Create a temporary input element */
+    var tempInput = document.createElement("input");
+
+    /* Set the value of the input to the text content of the TOTP element */
+    tempInput.value = totpContent.textContent.trim();
+
+    /* Append the input element to the document */
+    document.body.appendChild(tempInput);
+
+    /* Select the text inside the input element */
+    tempInput.select();
+
+    /* Copy the text to the clipboard */
+    document.execCommand("copy");
+
+    /* Remove the temporary input element */
+    document.body.removeChild(tempInput);
+
+    /* Toggle visibility of copy and copied icons */
+    copyIcon.style.display = "none";
+    copiedIcon.style.display = "inline";
+
+    /* Reset after a short delay (optional) */
+    setTimeout(function() {
+      copyIcon.style.display = "inline";
+      copiedIcon.style.display = "none";
+    }, 2000); // Reset after 2 seconds (adjust as needed)
+  }
+</script>
+<script>
+  function copyPassword() {
+    var passwordContent = document.querySelector(".password-content");
+                  var copyIcon = document.querySelector(".copy-icon-password");
+                  var copiedIcon = document.querySelector(".copied-icon-password");
+            
+                  /* Create a temporary input element */
+                  var tempInput = document.createElement("input");
+            
+                  /* Set the value of the input to the text content of the Password element */
+                  tempInput.value = passwordContent.textContent.trim();
+            
+                  /* Append the input element to the document */
+                  document.body.appendChild(tempInput);
+            
+                  /* Select the text inside the input element */
+                  tempInput.select();
+            
+                  /* Copy the text to the clipboard */
+                  document.execCommand("copy");
+            
+                  /* Remove the temporary input element */
+                  document.body.removeChild(tempInput);
+            
+                  /* Toggle visibility of copy and copied icons */
+                  copyIcon.style.display = "none";
+                  copiedIcon.style.display = "inline";
+            
+                  /* Reset after a short delay (optional) */
+                  setTimeout(function() {
+                    copyIcon.style.display = "inline";
+                    copiedIcon.style.display = "none";
+                  }, 2000); // Reset after 2 seconds (adjust as needed)
+                }
+  
+
+  function togglePasswordVisibility() {
+    const passwordContent = document.getElementById('passwordContent');
+    const copyIcon = document.querySelector('.copy-icon-password');
+    const hideIcon = document.querySelector('.hide-icon-password');
+
+    if (passwordContent.style.visibility === 'hidden') {
+      // Password is currently hidden, show it
+      passwordContent.style.visibility = 'visible';
+      passwordContent.innerHTML = "{{ item.Password }}"; // Replace with actual content
+      copyIcon.style.display = 'none';
+      hideIcon.style.display = 'inline-block';
+    } else {
+      // Password is currently visible, hide it
+      passwordContent.style.visibility = 'hidden';
+      passwordContent.innerHTML = "********"; // Replace with masked characters
+      copyIcon.style.display = 'inline-block';
+      hideIcon.style.display = 'none';
+    }
+  }
+</script>    
 
     <!--
         <li>
