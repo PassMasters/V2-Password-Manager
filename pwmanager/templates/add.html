@@ -101,12 +101,12 @@
                 {% csrf_token %}
                 <div class="form-field">
                     <label for="1" class="form-label">Username:</label>
-                    <input type="text" class="form-control" id="1" name="username">
+                    <input type="text" class="form-control" id="1" name="username" required>
                 </div>
                 <br />
                 <div class="form-field">
                     <label for="2" class="form-label">Password:</label>
-                    <input type="password" class="form-control" id="2" name="Password">
+                    <input type="password" class="form-control" id="2" name="Password" required>
                 </div>
                 <br />
                 <div class="form-field">
@@ -120,17 +120,17 @@
                 </div>
                 <div class="form-field">
                     <label for="5" class="form-label">Date:</label>
-                    <input type="date" class="form-control" id="5" name="date">
+                    <input type="date" class="form-control" id="5" name="date" required>
                 </div>
                 <br />
                 <div class="form-field">
                     <label for="6" class="form-label">URL:</label>
-                    <input type="text" class="form-control" id="6" name="URL">
+                    <input type="url" class="form-control" id="6" name="URL">
                 </div>
                 <br />
                 <div class="form-field">
                     <label for="2" class="form-label">PIN:</label>
-                    <input type="password" name="pin" value="" id="2" class="form-control" />
+                    <input type="password" name="pin" value="" id="2" class="form-control" required/>
                 </div>
                 <br />
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.118.2">
-    <title>Sign In · PassMasters</title>
+    <title>Delete PW · PassMasters</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <nav class="navbar bg-white" data-bs-theme="white">
     <br>
     <br>
@@ -88,11 +88,15 @@
 
 </nav>
 <div class="container">
-<body>
-    click to confirm that you wish for this password to be deleted FOREVER
-</body>
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="submit" name="k">
-</form>
-</div>
+    <body>
+        
+        <h2>click to confirm that you wish for this password to be deleted FOREVER</h2>
+    </body>
+    <div class="container mt-5">
+        <form action="" method="post" class="form">
+            {% csrf_token %}
+            <input type="submit" name="k" class="btn btn-danger" >
+
+        </form>
+    </div>
+    </div>
