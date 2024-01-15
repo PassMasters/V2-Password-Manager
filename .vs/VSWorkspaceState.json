@@ -1,7 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\pwmanager"
+    "\\api",
+    "\\app",
+    "\\pwmanager",
+    "\\pwmanager\\templates",
+    "\\pwmanager\\templates\\registration",
+    "\\security",
+    "\\security\\templates",
+    "\\static",
+    "\\static\\admin"
   ],
+  "SelectedNode": "\\pwmanager\\templates\\registration\\signup.html",
   "PreviewInSolutionExplorer": false
 }
