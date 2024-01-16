@@ -233,6 +233,7 @@ def Edit(request, pk):
        answer = checkmodel.Answer
        edata = eval(checkmodel.Data)
        iv = eval(bytes(ekey.IV, 'UTF-8'))
+       keys = AES.new(key, AES.MODE_CBC, iv)
        datade = keys.decrypt(edata)
        padding_length = datade[-1]
        plaintext_bytes = datade[:-padding_length]
