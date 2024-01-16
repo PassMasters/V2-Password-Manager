@@ -11,6 +11,6 @@
     "\\static",
     "\\static\\admin"
   ],
-  "SelectedNode": "\\pwmanager\\templates\\registration\\signup.html",
+  "SelectedNode": "\\pwmanager\\templates\\form.html",
   "PreviewInSolutionExplorer": false
 }

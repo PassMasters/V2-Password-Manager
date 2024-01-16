@@ -103,7 +103,7 @@
                 <div class="form-field">
                     <label for="{{ field.id_for_label }}" class="form-label">{{ field.label_tag }}</label>
                     <!-- Display the value of the form field -->
-                    <input type="text" value="{{ field.value }}" class="form-control">
+                    <input type="text" value="{{ field.value }}" class="form-control" name="{{  feild.name  }}">
                 </div>
                 <br />
                 {% endfor %}
