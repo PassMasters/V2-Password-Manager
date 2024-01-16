@@ -89,13 +89,14 @@
 </nav>
 <div class="container">
     <body>
-        
-        <h2>click to confirm that you wish for this password to be deleted FOREVER</h2>
+        <br>
+        <h3>Delete Password:</h3>
+        <p>Click to confirm that you wish for this password to be deleted FOREVER.</p>
     </body>
     <div class="container mt-5">
         <form action="" method="post" class="form">
             {% csrf_token %}
-            <input type="submit" name="k" class="btn btn-danger" >
+            <input type="submit" name="k" class="btn btn-outline-danger w-50" >
 
         </form>
     </div>
