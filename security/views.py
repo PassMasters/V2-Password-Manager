@@ -7,6 +7,7 @@ from .models import PWcheck
 import bcrypt
 from . import crypto
 from Crypto.Cipher import AES
+
 def passwordreset(request):
     if request.method != "POST":
         return render(request, "pwreset.html")

@@ -4,11 +4,15 @@ from django.contrib.auth.models import User
 class AcessRequest(models.Model):
     code = models.CharField(max_length=255, primary_key=True)
     key  = models.CharField(max_length=255)
-    premisions = models.CharField(max_length=1024)
+    prem1 = models.CharField(max_length=1024, default='NONE')
+    prem2 = models.CharField(max_length=1024, default='NONE')
+    prem3 = models.CharField(max_length=1024, default='NONE')
+    prem4 = models.CharField(max_length=1024, default='NONE')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 class ConfCode(models.Model):
     req = models.OneToOneField(AcessRequest, on_delete=models.CASCADE)
     code = models.CharField(max_length=255, primary_key=True)
+    key = models.CharField(max_length=255, default='NONE')
 class apikey(models.Model):
     name = models.CharField(max_length=100)
     key = models.CharField(max_length=255, primary_key=True)

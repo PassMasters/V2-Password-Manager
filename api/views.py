@@ -18,6 +18,8 @@ from pwmanager.models import PW, Encryption
 from datetime import datetime, timedelta
 from security import crypto as crypt
 from security.models import UserServerKeys as userkeys
+from security.models import PWcheck
+
 # Create your views here.
 
 def obtain(request):
@@ -40,25 +42,30 @@ def obtain(request):
 def Aprove(request, pk):
     model = get_object_or_404(AcessRequest, pk=pk)
     if request.method == "GET":
+        context = {
+            'perm1': model.perm1, 
+            'perm2': model.perm2
+        }
         return render(request, "acessdetails.html", model.premisions)
     else:
-        passwordss = PW.objects.filter(Owner=request.user).values('Password').first()
+        pwcheck = PWcheck.objects.get(Owner=request.user)
         ekey = Encryption.objects.get(Owner=request.user)
-        salt = bytes(ekey.Salt,'UTF-8')
-        iv = bytes(ekey.IV, 'UTF-8')
-        iv2 = eval(iv)
-        iv = iv2
-        pwlist = list(passwordss)
+        salt = eval(bytes(ekey.Salt,'UTF-8'))
+        iv = eval(bytes(ekey.IV, 'UTF-8'))
+
         pin = bytes(request.POST.get('pin'), 'UTF-8')
         encryption_key = bcrypt.kdf(pin, salt,rounds=500,  desired_key_bytes=32)
-        try:
-            for i in range(len(pwlist)):
-                y1 = dict(pwlist[i])
-                y3 = eval(bytes(y1['Password'], 'UTF-8'))
-                keys = AES.new(encryption_key, AES.MODE_CBC, iv)
-                y6 = crypt.decrypt(y3, keys)
-        except Exception as e:
-            return render(request,"acessdetails.html", {'msg', str(e)} )
+        keys = AES.new(encryption_key, AES.MODE_CBC, iv)
+        answer = pwcheck.Answer
+        data = eval(bytes(pwcheck.Data, 'UTF-8'))
+        datade = keys.decrypt(data)
+        padding_length = datade[-1]
+        plaintext_bytes = datade[:-padding_length]
+        datade = str(plaintext_bytes, 'UTF-8')
+        if datade != answer:
+            context = {
+                'error': "wrong pin"}
+            return render(request, "acessdetails.html", context)
         conf = ConfCode()
         userkey = userkeys()
         userkey.Owner = request.user
@@ -70,6 +77,7 @@ def Aprove(request, pk):
         userkey.Key = result
         userkey.save()
         conf.req = model
+        conf.key = key
         resultcode = secrets.randbelow(9000000000)
         conf.code = resultcode
         conf.save()
@@ -87,13 +95,10 @@ def acessrequestcode(request):
         token = request.POST.get('key')
         user = request.POST.get('username')
         code = secrets.randbelow(9000000000)
-        perms = {
-            'perm1': perm1,
-            'perm2':  perm2
-        }
         model = AcessRequest()
         model.key = token
-        model.premisions  =  perms
+        model.prem1 = perm1
+        model.perm2 = perm2
         model.code = code
         model.user = user
         model.save()
