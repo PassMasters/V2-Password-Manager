@@ -99,14 +99,36 @@
     
             <form method="post" action="" class="form">
                 {% csrf_token %}
-                {% for field in form %}
                 <div class="form-field">
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label_tag }}</label>
+                    <label for="Username" class="form-label">Username:</label>
                     <!-- Display the value of the form field -->
-                    <input type="text" value="{{ field.value }}" class="form-control" name="{{  feild.name  }}">
+                    <input type="text" value="{{ form.Username.value }}" class="form-control" name="Username">
                 </div>
                 <br />
-                {% endfor %}
+                <div class="form-field">
+                    <label for="Password" class="form-label">Password:</label>
+                    <!-- Display the value of the form field -->
+                    <input type="text" value="{{ form.Password.value }}" class="form-control" name="Password">
+                </div>
+                <br />
+                <div class="form-field">
+                    <label for="URl" class="form-label">URL:</label>
+                    <!-- Display the value of the form field -->
+                    <input type="text" value="{{ form.URL.value }}" class="form-control" name="URL">
+                </div>
+                <br />
+                <div class="form-field">
+                    <label for="TOTP" class="form-label">TOTP:</label>
+                    <!-- Display the value of the form field -->
+                    <input type="text" value="{{ form.TOTP.value }}" class="form-control" name="TOTP">
+                </div>
+                <br />
+                <div class="form-field">
+                    <label for="Notes" class="form-label">Notes:</label>
+                    <!-- Display the value of the form field -->
+                    <input type="text" value="{{ form.Notes.value }}" class="form-control" name="Notes">
+                </div>
+                <br />
                 <div class="form-field">
                     <label for="2" class="form-label">PIN:</label>
                     <input type="password" name="pin" value="" id="2" class="form-control" required/>

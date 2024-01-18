@@ -243,10 +243,17 @@ def Edit(request, pk):
                 'error': "wrong pin"}
             return render(request, "form.html", context)
        if form.is_valid():
-            pw.Password = crypto.encrypt(form.cleaned_data.get('Password'), key, request.user, )
-            pw.TOTP = crypto.encrypt(form.cleaned_data.get('TOTP'), key, request.user)
-            pw.save()
+            
+            pw.Username = request.POST.get('Username')
+            pw.Notes = request.POST.get('Notes')
+            pw.URL = request.POST.get('URL')
+            pw.Password = crypto.encrypt(request.POST.get('Password'), key, request.user, )
+            pw.TOTP = crypto.encrypt(request.POST.get('TOTP'), key, request.user)
             form.save()
+
+                
+            pw.save()
+            
             return redirect('/')
     else:
         if request.method =='GET':
