@@ -104,6 +104,10 @@ def acessrequestcode(request):
         perm2 = request.POST.get('Perm2')
         token = request.POST.get('key')
         serail = request.POST.get('Serial')
+        try:
+            model = models.apikey.objects.get(key=token)
+        except Exception:
+            return JsonResponse({'status':"key does not exsit"}, status=401)
         user = request.POST.get('username')
         code = secrets.randbelow(9000000000)
         model = AcessRequest()
