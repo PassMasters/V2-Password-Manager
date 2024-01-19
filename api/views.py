@@ -135,8 +135,6 @@ def TokenRequest(request):
         return JsonResponse({'error': 'Invalid request method'})
     else: 
         token = request.POST.get('key')
-        user = request.POST.get('user')
-        userobj = User.objects.get(username=user)
         model = models.apikey()
         try:
             model = models.apikey.objects.get(key=token)
