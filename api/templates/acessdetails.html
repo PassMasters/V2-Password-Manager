@@ -1,0 +1,17 @@
+<html>
+    <title>Access Request Details</title>
+    {% if perm1 %}
+    <h1>{{ perm1 }}</h1>
+    {% endif %}
+    {% if perm2 %}
+    <h1>{{ perm2 }}</h1>
+    {% endif %}
+    <form method="POST" action="">
+        <label for="pin">PIN:</label>
+        <input type="password" name="pin">
+        <input type="submit">
+    </form>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</html>

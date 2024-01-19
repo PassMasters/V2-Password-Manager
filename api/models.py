@@ -4,11 +4,13 @@ from django.contrib.auth.models import User
 class AcessRequest(models.Model):
     code = models.CharField(max_length=255, primary_key=True)
     key  = models.CharField(max_length=255)
-    prem1 = models.CharField(max_length=1024, default='NONE')
-    prem2 = models.CharField(max_length=1024, default='NONE')
-    prem3 = models.CharField(max_length=1024, default='NONE')
-    prem4 = models.CharField(max_length=1024, default='NONE')
+    Serial = models.CharField(max_length=255, default='0000')
+    perm1 = models.CharField(max_length=1024, default='NONE')
+    perm2 = models.CharField(max_length=1024, default='NONE')
+    perm3 = models.CharField(max_length=1024, default='NONE')
+    perm4 = models.CharField(max_length=1024, default='NONE')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    aproval = models.BooleanField(default=False)
 class ConfCode(models.Model):
     req = models.OneToOneField(AcessRequest, on_delete=models.CASCADE)
     code = models.CharField(max_length=255, primary_key=True)
@@ -28,4 +30,4 @@ class LinkedUser(models.Model):
     Device = models.ForeignKey(RegDevice, on_delete=models.CASCADE)
     User = models.ForeignKey(User, on_delete=models.CASCADE)
     Key = models.CharField(max_length=255)
-    premisions = models.CharField(max_length=1024, default="NONE")
+    premisions = models.ForeignKey(AcessRequest, on_delete=models.CASCADE)

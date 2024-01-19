@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 import hashlib
 from pwmanager.models import PW, Encryption
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
 from security import crypto as crypt
 from security.models import UserServerKeys as userkeys
 from security.models import PWcheck
@@ -46,7 +47,7 @@ def Aprove(request, pk):
             'perm1': model.perm1, 
             'perm2': model.perm2
         }
-        return render(request, "acessdetails.html", model.premisions)
+        return render(request, "acessdetails.html", context)
     else:
         pwcheck = PWcheck.objects.get(Owner=request.user)
         ekey = Encryption.objects.get(Owner=request.user)
@@ -67,13 +68,22 @@ def Aprove(request, pk):
                 'error': "wrong pin"}
             return render(request, "acessdetails.html", context)
         conf = ConfCode()
+        model.aproval = True
+        model.save()
         userkey = userkeys()
+        linkeduser = LinkedUser()
+        linkeduser.User = request.user
+        linkeduser.Device = RegDevice.objects.get(Serial=model.Serial)
+        linkeduser.key = model.key
+        linkeduser.premisions = model
+        linkeduser.save()
         userkey.Owner = request.user
         key = os.urandom(32)
         iv = os.urandom(16)
         keys2 = AES.new(key, AES.MODE_CBC, iv)
         userkey.IV = iv
-        result = crypt.encrypt(encryption_key, keys2)
+        result = keys2.encrypt(encryption_key)
+        print(result)
         userkey.Key = result
         userkey.save()
         conf.req = model
@@ -93,6 +103,7 @@ def acessrequestcode(request):
         perm1 = request.POST.get('Perm1')
         perm2 = request.POST.get('Perm2')
         token = request.POST.get('key')
+        serail = request.POST.get('Serial')
         user = request.POST.get('username')
         code = secrets.randbelow(9000000000)
         model = AcessRequest()
@@ -101,6 +112,7 @@ def acessrequestcode(request):
         model.perm2 = perm2
         model.code = code
         model.user = user
+        model.Serial = serail
         model.save()
         return JsonResponse({'code': code,'status':"sucess"}, status=200)
 def Deactveate(request):
@@ -123,6 +135,8 @@ def TokenRequest(request):
         return JsonResponse({'error': 'Invalid request method'})
     else: 
         token = request.POST.get('key')
+        user = request.POST.get('user')
+        userobj = User.objects.get(username=user)
         model = models.apikey()
         try:
             model = models.apikey.objects.get(key=token)
