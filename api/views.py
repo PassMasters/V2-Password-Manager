@@ -128,20 +128,11 @@ def TokenRequest(request):
             model = models.apikey.objects.get(key=token)
         except models.apikey.DoesNotExist:
             return JsonResponse({'error': 'Invalid token'}, status=403)
-        if model.Type == "AD User":
-            #internal server
-            return redirect('http://10.10.0.5')
         model.Activations = model.Activations + 1
         if model.Activations > model.Limit:
             return JsonResponse({'error': 'limit reached'}, status=403)
-        
         model.save()
-        devicekeypair = RSA.generate(1024)
-        privatekey = str(devicekeypair.exportKey(),'UTF-8')
-        publickey = str(devicekeypair.publickey().exportKey(),'UTF-8')
-
         my_uuid = token
-
         expiration_time = datetime.utcnow() + timedelta(days=30)
         reg = RegDevice()
         serial = secrets.randbelow(92384923742349)
@@ -155,8 +146,6 @@ def TokenRequest(request):
         'Serial ':  serial,
         'signingkey': siginkey,
         'Server Key': 'OIDFJIODSFJIODSFJIU(WFHOISDF903248uweriy87345ureiyrtb965258752475201258525475sduri6838ejmfiuvmknmeujdjedjdjjdjdjdjd)',
-        'RSA Privaete': privatekey,
-        'RSA Public': publickey,
         'exp': expiration_time,
     }
         token = jwt.encode(payload, secret, algorithm='HS256')
