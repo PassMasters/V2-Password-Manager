@@ -108,7 +108,7 @@ def acessrequestcode(request):
         code = secrets.randbelow(9000000000)
         model = AcessRequest()
         model.key = token
-        model.prem1 = perm1
+        model.prem1= perm1
         model.perm2 = perm2
         model.code = code
         model.user = user
