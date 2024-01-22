@@ -109,13 +109,14 @@ def acessrequestcode(request):
         except Exception:
             return JsonResponse({'status':"key does not exsit"}, status=401)
         user = request.POST.get('username')
+        userobj = User.objects.get(username=user)
         code = secrets.randbelow(9000000000)
         model = AcessRequest()
         model.key = token
         model.prem1= perm1
         model.perm2 = perm2
         model.code = code
-        model.user = user
+        model.user = userobj
         model.Serial = serail
         model.save()
         return JsonResponse({'code': code,'status':"sucess"}, status=200)

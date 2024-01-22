@@ -12,9 +12,9 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>10</pointsize>
-    <weight>75</weight>
-    <bold>true</bold>
+    <pointsize>9</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -44,16 +44,6 @@
      <string>Username:</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>341</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -67,19 +57,29 @@
      <string>API Key:</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QLineEdit" name="Username">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>351</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="apikey">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>100</y>
       <width>341</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
    </widget>
   </widget>
   <widget class="QWizardPage" name="wizardPage2">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="Code">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -118,7 +118,7 @@
      <string>Obtain Your Confirmation code and enter it here:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="Conf">
     <property name="geometry">
      <rect>
       <x>10</x>
