@@ -9,5 +9,6 @@ urlpatterns = [
     path('aprove/<int:pk>', views.Aprove),
     path('request', views.acessrequestcode),
     path('deactivate', views.Deactveate),
-    path('tokenrequest', views.TokenRequest)
+    path('tokenrequest', views.TokenRequest),
+    path('verify/<int:pk>', views.ConfVerify)
 ]
