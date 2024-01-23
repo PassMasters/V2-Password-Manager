@@ -58,6 +58,8 @@ class MyWizardApp(QWizard):
                 print("Value changed in Line Edit 'code' on Page 2 before display.")
             else:
                 print("Line Edit 'code' not found on Page 2.")
+        else:
+            conf = self.findChild(QLineEdit, "conf").text()
             
                 
 if __name__ == "__main__":
