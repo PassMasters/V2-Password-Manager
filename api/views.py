@@ -93,7 +93,10 @@ def Aprove(request, pk):
         conf.save()
         return render(request, "sucess.html", {'code': resultcode})
         
-        
+def ConfVerify(request, pk):
+    model = get_object_or_404(AcessRequest, pk=pk)
+    if request.method != 'POST':
+        return JsonResponse({'status': "wrong request method"}, status=500)
         
 
 def acessrequestcode(request):
