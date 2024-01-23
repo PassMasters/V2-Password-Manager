@@ -107,6 +107,9 @@ def ConfVerify(request, pk):
             keys = AES.new(key, AES.MODE_CBC, iv)
             result = keys.decrypt(eval(bytes(userkeys.key, 'UTF-8')))
             context = {'data': result}
+            serverkey.delete()
+            model.key = os.urandom(32)
+            model.save()
             return JsonResponse(context, status=200)
         else:
             context = {'status': 'DENIED'}
