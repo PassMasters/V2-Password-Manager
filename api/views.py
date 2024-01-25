@@ -92,7 +92,36 @@ def Aprove(request, pk):
         conf.code = resultcode
         conf.save()
         return render(request, "sucess.html", {'code': resultcode})
-        
+
+def TOTP(request):
+    if request.method != 'POST':
+        return JsonResponse({'status':"POST request Required"})
+    else:
+        key = bytes(request.POST.get('ekey'), 'UTF-8')
+        serial = request.POST.get('serial')
+        lisence = request.POST.get('token')
+        user = request.POST.get('user')
+        userobj = User.objects.get(username=user)
+        pw = PW.objects.filter(Owner=userobj).values('TOTP', 'URL', 'Username')
+        ekey =  Encryption.objects.get(Owner=userobj)
+        iv = eval(bytes(ekey.IV,'UTF-8'))
+        keys = AES.new(key, AES.MODE_CBC, iv)
+        totplist = list(pw)
+        mainlist = []
+        for i in range(len(totplist)):
+            datadict = dict(totplist[i])
+            TOTPbytes = eval(bytes(datadict['TOTP'], 'UTF-8'))
+            username = datadict['Username']
+            url1 = datadict['URL']
+            dtotp  = crypt.decrypt(TOTPbytes, keys)
+            data_dict = {
+                "Username": username,
+                "TOTP": dtotp,
+                "URL" : url1,
+            }
+            mainlist.append(data_dict)
+        context = {'data': mainlist}
+        return JsonResponse(context)
 def ConfVerify(request, pk):
     model = get_object_or_404(ConfCode, pk=pk)
     if request.method != 'POST':
