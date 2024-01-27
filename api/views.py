@@ -1,5 +1,4 @@
 import json
-from turtle import mode
 from django.shortcuts import render
 from . import models
 from django.shortcuts import render, get_object_or_404
