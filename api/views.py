@@ -143,7 +143,7 @@ def ConfVerify(request, pk):
     if request.method != 'POST':
         return JsonResponse({'status': "wrong request method"}, status=500)
     else:
-        req = AcessRequest.objects.get(pk=model.Req)
+        req = AcessRequest.objects.get(pk=model.req)
         userobj = User.objects.get(pk=req.user)
         if req.aproval==True:
             serverkey = userkeys.objects.get(Owner=userobj)
@@ -177,7 +177,7 @@ def acessrequestcode(request):
         code = secrets.randbelow(9000000000)
         model = AcessRequest()
         model.key = token
-        model.prem1= perm1
+        model.perm1= perm1
         model.perm2 = perm2
         model.code = code
         model.user = userobj

@@ -15,22 +15,9 @@ class MyWizardApp(QWizard):
         super().__init__()
         loadUi("setup.ui", self)  # Replace with the actual path to your .ui file
         self.currentIdChanged.connect(self.on_page_changed)
-        self.aboutToQuit.connect(self.on_finish_button_clicked)
 
      
-    def on_finish_button_clicked(self):
-        print("Finish button clicked!")
-        conf = self.findChild(QLineEdit, "Conf").text()
-        url = "https://passmasters.vercel.app/api/verify/"
-        url = url + str(conf)
-        response = requests.post(url)
-        json = response.json()
-        key = json["data"]
-        print(key)
-        ekey = win32crypt.CryptProtectData(key, None, None, None, 0)
-        registry_key_path = r"Software\PassMasters\Secure"
-        key2 = winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry_key_path)
-        winreg.SetValueEx(key2, "ekey", 0, winreg.REG_SZ, str(ekey))
+
     def on_page_changed(self, page_id):
         if page_id == 1:  # Adjust the page ID based on your actual setup
             # Access the Line Edit widget on Page 1 and print its text
@@ -53,7 +40,7 @@ class MyWizardApp(QWizard):
                     key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry_key_path)
                     winreg.SetValueEx(key, claim, 0, winreg.REG_SZ, str(value))
                     print(f"Claim '{claim}' saved to the Windows Registry.")
-                except PermissionErrorre:
+                except PermissionError:
                     print(f"Permission error when accessing '{claim}' in the Windows Registry.")
                 finally:
                     if key:
@@ -84,7 +71,19 @@ class MyWizardApp(QWizard):
             else:
                 print("Line Edit 'code' not found on Page 2.")
         else:
-            conf = self.findChild(QLineEdit, "Conf").text()
+            if page_id ==2:
+                print("Finish button clicked!")
+                conf = self.findChild(QLineEdit, "Conf").text()
+                url = "https://passmasters.vercel.app/api/verify/"
+                url = url + str(conf)
+                response = requests.post(url)
+                json = response.json()
+                key = json["data"]
+                print(key)
+                ekey = win32crypt.CryptProtectData(key, None, None, None, 0)
+                registry_key_path = r"Software\PassMasters\Secure"
+                key2 = winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry_key_path)
+                winreg.SetValueEx(key2, "ekey", 0, winreg.REG_SZ, str(ekey))
             
             
                 

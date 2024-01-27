@@ -129,6 +129,21 @@
     </property>
    </widget>
   </widget>
+  <widget class="QWizardPage" name="wizardPage">
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>231</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>All Setup has been completed sucessfuly. </string>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>
