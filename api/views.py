@@ -1,4 +1,5 @@
 import json
+from turtle import mode
 from django.shortcuts import render
 from . import models
 from django.shortcuts import render, get_object_or_404
@@ -100,8 +101,23 @@ def TOTP(request):
         key = bytes(request.POST.get('ekey'), 'UTF-8')
         serial = request.POST.get('serial')
         lisence = request.POST.get('token')
+        model = models.RegDevice.objects.get(Serial=serial)
+        if lisence != model.key:
+            return JsonResponse({'status':"Lisence does not match and go die!"})
+        perms = models.LinkedUser.objects.get(Device=model)
         user = request.POST.get('user')
         userobj = User.objects.get(username=user)
+        if perms.User != userobj:
+            return JsonResponse({'status':"User does not match and go die!"})
+        perms2 = models.AcessRequest.objects.get(pk=perms.premisions.pk)
+        if perms2.aproval == False:
+            return JsonResponse({'status':"NOT ALLOWED GO DIE!"})
+        perm1 = perms2.perm1
+        if perm1 == 'NONE':
+            return JsonResponse({'status':"NOT ALLOWED GO DIE!"})
+        else:
+            if perm1 != "Read All TOTP Secrets":
+                return JsonResponse({'status':"NOT ALLOWED GO DIE!"})
         pw = PW.objects.filter(Owner=userobj).values('TOTP', 'URL', 'Username')
         ekey =  Encryption.objects.get(Owner=userobj)
         iv = eval(bytes(ekey.IV,'UTF-8'))

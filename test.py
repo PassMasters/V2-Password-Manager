@@ -1,17 +1,22 @@
-import re
 import sys
-from PyQt6.QtWidgets import QApplication, QWizard, QLineEdit
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QApplication, QWizard, QLineEdit, QMainWindow
 from PyQt6.uic import loadUi
 import winreg
 import requests
 import jwt
 import win32crypt
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        loadUi("mainwindow.ui", self)
 class MyWizardApp(QWizard):
     def __init__(self):
         super().__init__()
         loadUi("setup.ui", self)  # Replace with the actual path to your .ui file
         self.currentIdChanged.connect(self.on_page_changed)
-        self.button(QWizard.FinishButton).clicked.connect(self.on_finish_button_clicked)
+        self.aboutToQuit.connect(self.on_finish_button_clicked)
+
      
     def on_finish_button_clicked(self):
         print("Finish button clicked!")
@@ -19,7 +24,13 @@ class MyWizardApp(QWizard):
         url = "https://passmasters.vercel.app/api/verify/"
         url = url + str(conf)
         response = requests.post(url)
-
+        json = response.json()
+        key = json["data"]
+        print(key)
+        ekey = win32crypt.CryptProtectData(key, None, None, None, 0)
+        registry_key_path = r"Software\PassMasters\Secure"
+        key2 = winreg.CreateKey(winreg.HKEY_CURRENT_USER, registry_key_path)
+        winreg.SetValueEx(key2, "ekey", 0, winreg.REG_SZ, str(ekey))
     def on_page_changed(self, page_id):
         if page_id == 1:  # Adjust the page ID based on your actual setup
             # Access the Line Edit widget on Page 1 and print its text
@@ -79,6 +90,14 @@ class MyWizardApp(QWizard):
                 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    wizard_app = MyWizardApp()
-    wizard_app.show()
+    registry_key_path = r"Software\PassMasters"
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_key_path, 0, winreg.KEY_READ)
+    value, _ = winreg.QueryValueEx(key, "APISetupComplete")
+    if value == b'\x01':
+        print("Setup Already Completed. Running Main Window.")
+        mainwindows = MainWindow()
+        mainwindows.show()
+    else:
+        wizard_app = MyWizardApp()
+        wizard_app.show()
     sys.exit(app.exec())
