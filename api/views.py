@@ -149,7 +149,7 @@ def ConfVerify(request, pk):
             iv = eval(bytes(serverkey.IV, 'UTF-8'))
             key = eval(model.key)
             keys = AES.new(key, AES.MODE_CBC, iv)
-            result = keys.decrypt(eval(bytes(userkeys.key, 'UTF-8')))
+            result = keys.decrypt(eval(bytes(serverkey.key, 'UTF-8')))
             context = {'data': result}
             serverkey.delete()
             model.key = os.urandom(32)
