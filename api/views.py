@@ -142,8 +142,8 @@ def ConfVerify(request, pk):
     if request.method != 'POST':
         return JsonResponse({'status': "wrong request method"}, status=500)
     else:
-        req = AcessRequest.objects.get(pk=model.req)
-        userobj = User.objects.get(pk=req.user)
+        req = AcessRequest.objects.get(pk=model.req.pk)
+        userobj = User.objects.get(pk=req.user.pk)
         if req.aproval==True:
             serverkey = userkeys.objects.get(Owner=userobj)
             iv = eval(bytes(serverkey, 'UTF-8'))
