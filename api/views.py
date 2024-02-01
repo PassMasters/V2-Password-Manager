@@ -146,7 +146,7 @@ def ConfVerify(request, pk):
         userobj = User.objects.get(pk=req.user.pk)
         if req.aproval==True:
             serverkey = userkeys.objects.get(Owner=userobj)
-            iv = eval(bytes(serverkey, 'UTF-8'))
+            iv = eval(serverkey)
             key = model.key
             keys = AES.new(key, AES.MODE_CBC, iv)
             result = keys.decrypt(eval(bytes(userkeys.key, 'UTF-8')))
