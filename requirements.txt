@@ -7,7 +7,7 @@ charset-normalizer==3.2.0
 colorama==0.4.6
 cryptography==41.0.6
 defusedxml==0.7.1
-Django==4.2.7
+Django==4.2.11
 gunicorn==21.2.0
 pycryptodome==3.19.1
 PyJWT==2.8.0
